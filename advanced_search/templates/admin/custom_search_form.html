@@ -1,0 +1,117 @@
+{% load i18n admin_static %}
+
+
+<!-- Stylesheet -->
+{% block stylesheet %}
+    <style>
+        .advanced_search_form_body > input {
+            margin-bottom: 15px;
+        }
+
+        .advanced_search_form_body > select {
+            margin-bottom: 15px;
+        }
+        
+        .form_submit_button {
+            height: 30px !important;
+            width: 150px !important;
+        }
+        
+        .search_button {
+            padding-top: 10px;
+        }
+
+        .search_button > a{
+            background-image: none!important;
+            padding: 9px 20px 9px 20px !important;
+            border-radius: 3px!important;
+            color: #454545!important;
+            font-size: 16px!important;
+            text-transform: none!important;
+            letter-spacing: normal!important;
+            background-color: #fff!important;
+            border: 1px solid #ddd!important;
+            background-clip: padding-box;
+        }
+    </style>
+{% endblock %}
+
+{% block modal %}
+
+    {% if cl.search_fields %}
+    <form id="advaced_admin_search" class="modal" width=>
+        
+        <div class="advanced_search_form_body">
+            {% block form_fields %}
+                {{asf}}
+            {% endblock %}
+        </div>
+
+        {% if show_result_count %}
+            <span class="small quiet">{% blocktrans count counter=cl.result_count %}{{ counter }} result{% plural %}{{ counter }} 
+                                      results{% endblocktrans %} (<a href="?{% if cl.is_popup %}_popup=1{% endif %}">
+                                      {% if cl.show_full_result_count %}{% blocktrans with full_result_count=cl.full_result_count %}
+                                      {{ full_result_count }} total{% endblocktrans %}{% else %}{% trans "Show all" %}{% endif %}</a>)
+            </span>
+        {% endif %}
+        {% for pair in cl.params.items %}
+            {% if pair.0 != search_var %}<input type="hidden" name="{{ pair.0 }}" value="{{ pair.1 }}"/>{% endif %}
+        {% endfor %}
+        
+        <br />
+
+        {% block modal_search_button %}
+        <button id="submit_form" type="button" class="form_submit_button">
+            {% block modal_search_button_text %}
+                {% trans 'filter'|title %}
+            {% endblock %}
+        </button>
+        {% endblock %}
+
+    </form>
+    {% endif %}
+
+{% endblock %}
+
+{% block search_admin_button %}
+    <div class="search_button">
+        <!-- Link to open the modal -->
+        <a href="#advaced_admin_search" rel="modal:open" class="search_button">
+            <img src="{% static "admin/img/search.svg" %}" alt="Search" height="15"/> 
+            <span>
+                {% block search_admin_button_text %}
+                    {% trans 'advanced search'|title %}
+                {% endblock %}
+            </span>
+        </a>
+    </div>
+{% endblock %}
+
+
+<!-- Scripts -->
+{% block scripts %}
+    <!-- jQuery -->
+    <script src="{% static 'jquery/jquery.min.js' %}"></script>
+
+    <!-- JQuery Mask-->
+    <script src="{% static 'jquery_mask/jquerymask.js' %}"></script>
+
+    <!-- jQuery Modal -->
+    <script src="{% static 'jquery_modal/jquery.modal.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'jquery_modal/jquery.modal.min.css' %}" />
+
+    <!-- Submit Button (Get parameters)-->
+    <script>
+        let searchParams = new URLSearchParams(window.location.search)
+        
+        page = searchParams.get('e')
+        page = page == null ? 1 : ( $.isNumeric(page) ? parseInt(page) : 1 );
+        
+        $( "#submit_form" ).click(function() {
+            params = $('#advaced_admin_search').serialize() 
+            href = window.location.pathname
+            window.location.href = href + '?e=' + page + '&' + params;
+        });
+    </script>
+
+{% endblock %}

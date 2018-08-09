@@ -1,0 +1,14 @@
+# IDE Folders
+/.idea/*
+/.vscode/*
+
+# Python Files
+*.pyc
+
+# SQL Files
+*.db
+*.sqlite3
+*.sql
+
+# Others
+/venv/*

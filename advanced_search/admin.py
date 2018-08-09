@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.contrib.admin import ModelAdmin
 from django.db.models import Q
+from django import forms
+from django.utils import timezone
 
 
 class BaseAdvacedSearchAdmin(ModelAdmin):
@@ -40,6 +42,37 @@ class BaseAdvacedSearchAdmin(ModelAdmin):
         self.advanced_search_fields = {}
 
         return qs
-        
+    
+    def advanced_search_form(self, request=None):
+        return self.search_form(data=request)
+
     def advanced_search_query(self, request, query, get_values):
+        for key, value in self.advanced_search_form().fields.items():
+            key_value = get_values[key][0] if key in get_values else None
+
+            if hasattr(self, ('search_' + key)):
+                query &= getattr(self, 'search_' + key)(request, key_value, get_values)
+                continue
+
+            if key_value is None:
+                continue
+
+            if isinstance(value, forms.CharField) or isinstance(value, forms.TextInput):
+                field_query = key + '__icontains'
+                query &= Q(**{field_query: key_value})
+
+            if isinstance(value, forms.BooleanField) or isinstance(value, forms.ChoiceField) or isinstance(value, forms.ModelChoiceField):
+                field_query = key
+                query &= Q(**{field_query: key_value})
+
+            if isinstance(value, forms.DateField):
+                field_query = key + value.widget.attrs['data_filter']
+                key_value = timezone.datetime.strptime(key_value, "%d/%m/%Y")
+                query &= Q(**{field_query: key_value})
+
+            if isinstance(value, forms.DateTimeField):
+                field_query = key + value.widget.attrs['data_filter']
+                key_value = timezone.datetime.strptime(key_value, "%d/%m/%Y %H:%M:%S")
+                query &= Q(**{field_query: key_value})
+        
         return query

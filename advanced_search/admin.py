@@ -19,19 +19,20 @@ class BaseAdvacedSearchAdmin(ModelAdmin):
         return self.advanced_search(request, qs)
 
     def changelist_view(self, request, extra_context=None, **kwargs):
-        advanced_search_form = self.advanced_search_form(request.GET)
+        advanced_search_form = self.advanced_search_form()
         extra_context = {'asf':advanced_search_form}
         
-        request.GET._mutable=True
-        for key in advanced_search_form.fields.keys():
-            try:
-                temp = request.GET.pop(key)
-            except KeyError:
-                pass # there is no field of the form in the dict so we don't remove it
-            else:
-                if temp!=['']: #there is a field but it's empty so it's useless
-                    self.advanced_search_fields[key] = temp 
-        request.GET_mutable=False
+        if advanced_search_form is not None:
+            request.GET._mutable=True
+            for key in advanced_search_form.fields.keys():
+                try:
+                    temp = request.GET.pop(key)
+                except KeyError:
+                    pass # there is no field of the form in the dict so we don't remove it
+                else:
+                    if temp!=['']: #there is a field but it's empty so it's useless
+                        self.advanced_search_fields[key] = temp 
+            request.GET_mutable=False
         
         return super(BaseAdvacedSearchAdmin, self).changelist_view(request, extra_context=extra_context)
 
@@ -44,9 +45,17 @@ class BaseAdvacedSearchAdmin(ModelAdmin):
         return qs
     
     def advanced_search_form(self, request=None):
-        return self.search_form(data=request)
+        if hasattr(self, 'search_form'):
+            return self.search_form(data=request)
+        
+        return None
 
     def advanced_search_query(self, request, query, get_values):
+        
+        form = self.advanced_search_form()
+        if form is None:
+            return query
+
         for key, value in self.advanced_search_form().fields.items():
             key_value = get_values[key][0] if key in get_values else None
 

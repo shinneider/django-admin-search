@@ -13,8 +13,8 @@ class AreaSearchForm(Form):
     name = CharField(required=False)
     active = ChoiceField(choices=STATUS_CHOICES, required=False)
     description = CharField(required=False)
-    begin = DateField(required=False, widget=TextInput(attrs={'data_filter': '__gte'}))
-    end = DateField(required=False, widget=TextInput(attrs={'data_filter': '__lte'}))
+    begin = DateField(required=False, widget=TextInput(attrs={'filter_method': '__gte'}))
+    end = DateField(required=False, widget=TextInput(attrs={'filter_method': '__lte'}))
 
 class AreaForm(ModelForm):
     class Meta:

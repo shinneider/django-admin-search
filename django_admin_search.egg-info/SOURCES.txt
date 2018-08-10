@@ -1,0 +1,14 @@
+LICENSE
+MANIFEST.in
+README.md
+setup.cfg
+setup.py
+advanced_search/__init__.py
+advanced_search/admin.py
+advanced_search/meta.py
+advanced_search/templatetags/__init__.py
+advanced_search/templatetags/advanced_search_form.py
+django_admin_search.egg-info/PKG-INFO
+django_admin_search.egg-info/SOURCES.txt
+django_admin_search.egg-info/dependency_links.txt
+django_admin_search.egg-info/top_level.txt

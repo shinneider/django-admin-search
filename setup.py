@@ -2,7 +2,7 @@
 #!/usr/bin/env python
 from io import open
 from setuptools import find_packages, setup
-from advanced_search.meta import VERSION
+from django_admin_search.meta import VERSION
 
 
 setup(

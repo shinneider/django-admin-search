@@ -6,8 +6,7 @@ class Area(Model):
     name = CharField( max_length=100)
     active = BooleanField(default=True)
     description = TextField(max_length=500)
-    begin = DateField()
-    end = DateField()
+    date = DateField()
 
     def __str__(self):
         return '{name}'.format(name=self.nome)

@@ -66,8 +66,10 @@ class BaseAdvacedSearchAdmin(ModelAdmin):
             if key_value is None:
                 continue
 
+            key = value.widget.attrs['filter_field'] or key
+            field_query = key + value.widget.attrs['filter_method'] or ''
+
             if isinstance(value, forms.CharField) or isinstance(value, forms.TextInput):
-                field_query = key + value.widget.attrs['filter_method'] or '__icontains'
                 query &= Q(**{field_query: key_value})
 
             if isinstance(value, forms.BooleanField) or isinstance(value, forms.ChoiceField) or isinstance(value, forms.ModelChoiceField):
@@ -75,23 +77,35 @@ class BaseAdvacedSearchAdmin(ModelAdmin):
                 query &= Q(**{field_query: key_value})
 
             if isinstance(value, forms.FloatField):
-                field_query = key + value.widget.attrs['filter_method']
-                key_value = float(key_value) if key_value.replace('.','',1).isdigit() else ''
+                try:
+                    key_value = float(key_value) 
+                except: 
+                    key_value = ''
+
                 query &= Q(**{field_query: key_value})
 
             if isinstance(value, forms.IntegerField):
-                field_query = key + value.widget.attrs['filter_method']
-                key_value = int(key_value) if key_value.replace('.','',1).isdigit() else ''
+                try:
+                    key_value = int(key_value) 
+                except: 
+                    key_value = ''
+
                 query &= Q(**{field_query: key_value})
 
             if isinstance(value, forms.DateField):
-                field_query = key + value.widget.attrs['filter_method']
-                key_value = timezone.datetime.strptime(key_value, "%d/%m/%Y")
+                try:
+                    key_value = timezone.datetime.strptime(key_value, "%d/%m/%Y")
+                except: 
+                    key_value = ''
+
                 query &= Q(**{field_query: key_value})
 
             if isinstance(value, forms.DateTimeField):
-                field_query = key + value.widget.attrs['filter_method']
-                key_value = timezone.datetime.strptime(key_value, "%d/%m/%Y %H:%M:%S")
+                try:
+                    key_value = timezone.datetime.strptime(key_value, "%d/%m/%Y %H:%M:%S")
+                except: 
+                    key_value = ''
+                    
                 query &= Q(**{field_query: key_value})
         
         return query

@@ -1,6 +1,9 @@
 Django Admin Search
 ===================
 
+# Install:
+    pip install django-admin-search
+    
 # Add to your INSTALLED_APPS, in settings.py:
     INSTALLED_APPS = [  
         ...

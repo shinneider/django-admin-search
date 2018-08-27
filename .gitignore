@@ -12,3 +12,5 @@
 
 # Others
 /venv/*
+/dist/*
+/django_admin_search.egg-info/*

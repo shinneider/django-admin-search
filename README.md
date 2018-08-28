@@ -4,14 +4,14 @@ Django Admin Search
 # Install:
     pip install django-admin-search
     
-# Add to your INSTALLED_APPS, in settings.py:
+1. Add to your INSTALLED_APPS, in settings.py:
     INSTALLED_APPS = [  
         ...
         'django_admin_search',
         ...
     ]  
 
-# Create a search form for model:
+2. Create a search form for model:
     from .models import Area
     from django.forms import ModelForm, Form
     from django.forms import DateField, CharField, ChoiceField, TextInput
@@ -25,7 +25,7 @@ Django Admin Search
             }
         ))
 
-# In your admin:
+3. In your admin:
     from django_admin_search.admin import BaseAdvacedSearchAdmin
     from .models import YourModel
     from .form import YourForm, YourFormSearch
@@ -35,8 +35,9 @@ Django Admin Search
         form = YourForm
         search_form = YourFormSearch
 
+# Advanced:
 
-# to multiple filters in same field:
+1. to multiple filters in same field:
     class YourFormSearch(Form):
         ...
         name = CharField(required=False)
@@ -53,7 +54,7 @@ Django Admin Search
             }
         ))
 
-# add placeholder and mask
+2. add placeholder and mask
     class YourFormSearch(Form):
         ...
         date = DateField(required=False, widget=TextInput(

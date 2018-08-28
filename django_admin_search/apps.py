@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.apps import AppConfig
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 
 class DjangoAdminSearchConfig(AppConfig): # Our app config class

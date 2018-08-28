@@ -19,7 +19,7 @@ class BaseAdvacedSearchAdmin(ModelAdmin):
         return self.advanced_search(request, qs)
 
     def changelist_view(self, request, extra_context=None, **kwargs):
-        advanced_search_form = self.advanced_search_form()
+        advanced_search_form = self.advanced_search_form(request.GET)
         extra_context = {'asf':advanced_search_form}
         
         if advanced_search_form is not None:

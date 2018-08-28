@@ -7,6 +7,7 @@ Django Admin Search
 # Usage:
 
 1. Add to your INSTALLED_APPS, in settings.py:
+
         INSTALLED_APPS = [  
             ...
             'django_admin_search',
@@ -14,6 +15,7 @@ Django Admin Search
         ]  
 
 2. Create a search form for model:
+
         from .models import Area
         from django.forms import ModelForm, Form
         from django.forms import DateField, CharField, ChoiceField, TextInput
@@ -28,6 +30,7 @@ Django Admin Search
             ))
 
 3. In your admin:
+
         from django_admin_search.admin import BaseAdvacedSearchAdmin
         from .models import YourModel
         from .form import YourForm, YourFormSearch
@@ -40,6 +43,7 @@ Django Admin Search
 # Advanced:
 
 1. to multiple filters in same field:
+
         class YourFormSearch(Form):
             ...
             name = CharField(required=False)
@@ -57,6 +61,7 @@ Django Admin Search
             ))
 
 2. add placeholder and mask
+
         class YourFormSearch(Form):
             ...
             date = DateField(required=False, widget=TextInput(

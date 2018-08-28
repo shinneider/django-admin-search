@@ -66,8 +66,8 @@ class BaseAdvacedSearchAdmin(ModelAdmin):
             if key_value is None:
                 continue
 
-            key = value.widget.attrs['filter_field'] or key
-            field_query = key + value.widget.attrs['filter_method'] or ''
+            key = value.widget.attrs.get('filter_field', key)
+            field_query = key + value.widget.attrs.get('filter_method', '')
 
             if isinstance(value, forms.CharField) or isinstance(value, forms.TextInput):
                 query &= Q(**{field_query: key_value})

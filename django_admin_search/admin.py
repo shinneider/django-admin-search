@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.contrib.admin import ModelAdmin
 from django.db.models import Q
-from django import forms
-from django.utils import timezone
+from django_admin_search import utils as u
+from django.contrib import messages
 
 
 class BaseAdvacedSearchAdmin(ModelAdmin):
@@ -51,7 +51,9 @@ class BaseAdvacedSearchAdmin(ModelAdmin):
         return None
 
     def advanced_search_query(self, request, query, get_values):
-        
+        """
+        Get form and mount filter query if form is not none
+        """
         form = self.advanced_search_form()
         if form is None:
             return query
@@ -59,6 +61,7 @@ class BaseAdvacedSearchAdmin(ModelAdmin):
         for key, value in self.advanced_search_form().fields.items():
             key_value = get_values[key][0] if key in get_values else None
 
+            # to overide default filter for a sigle field
             if hasattr(self, ('search_' + key)):
                 query &= getattr(self, 'search_' + key)(request, key_value, get_values)
                 continue
@@ -69,43 +72,10 @@ class BaseAdvacedSearchAdmin(ModelAdmin):
             key = value.widget.attrs.get('filter_field', key)
             field_query = key + value.widget.attrs.get('filter_method', '')
 
-            if isinstance(value, forms.CharField) or isinstance(value, forms.TextInput):
+            try:
+                key_value = u.format_data(value, key_value)
                 query &= Q(**{field_query: key_value})
+            except:
+                continue
 
-            if isinstance(value, forms.BooleanField) or isinstance(value, forms.ChoiceField) or isinstance(value, forms.ModelChoiceField):
-                field_query = key
-                query &= Q(**{field_query: key_value})
-
-            if isinstance(value, forms.FloatField):
-                try:
-                    key_value = float(key_value) 
-                except: 
-                    key_value = ''
-
-                query &= Q(**{field_query: key_value})
-
-            if isinstance(value, forms.IntegerField):
-                try:
-                    key_value = int(key_value) 
-                except: 
-                    key_value = ''
-
-                query &= Q(**{field_query: key_value})
-
-            if isinstance(value, forms.DateField):
-                try:
-                    key_value = timezone.datetime.strptime(key_value, "%d/%m/%Y")
-                except: 
-                    key_value = ''
-
-                query &= Q(**{field_query: key_value})
-
-            if isinstance(value, forms.DateTimeField):
-                try:
-                    key_value = timezone.datetime.strptime(key_value, "%d/%m/%Y %H:%M:%S")
-                except: 
-                    key_value = ''
-                    
-                query &= Q(**{field_query: key_value})
-        
         return query

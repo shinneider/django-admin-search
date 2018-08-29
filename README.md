@@ -1,6 +1,10 @@
 Django Admin Search
 ===================
 
+this project implement a search modal in django admin to filter your queryset.
+
+Obs: this project works only in django admin
+
 # Install:
     pip install django-admin-search
 

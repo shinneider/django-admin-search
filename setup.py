@@ -11,6 +11,7 @@ setup(
     version=str(VERSION),
     description='The "Django Admin Search" is a advanced search modal for django admin',
     long_description=open('README.md', encoding='utf-8').read(),
+    long_description_content_type='text/markdown',
     author='Shinneider Libanio da Silva',
     author_email='shinneider-libanio@hotmail.com',
     url='https://github.com/shinneider/django_admin_search',

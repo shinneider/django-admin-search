@@ -1,0 +1,17 @@
+<fieldset class="module aligned">
+    {% for field in asf %}
+        <div class="form-field field-{{field.name}}">
+            <div>
+                {% if field.is_checkbox %}
+                    {{field}}{{ field.label_tag }}
+                {% else %}
+                    {{ field.label_tag }}
+                    {{field}}
+                {% endif %}
+                {% if field.field.help_text %}
+                    <div class="help">{{ field.field.help_text|safe }}</div>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</fieldset>

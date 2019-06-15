@@ -1,4 +1,5 @@
 from django.contrib.admin import register
+from django.db.models import Q
 
 from django_admin_search.admin import AdvacedSearchAdmin
 
@@ -11,7 +12,7 @@ class AreaAdmin(AdvacedSearchAdmin):
     form = AreaForm
     search_form = AreaSearchForm
 
-    def search_description(request, field_value, param_values):
+    def search_description(self, field, field_value, form_field, request, param_values):
         """
             intercept query filter for description field
         """

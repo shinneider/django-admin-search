@@ -35,12 +35,12 @@ Obs: this project works only in django admin
 
 3. In your admin:
 
-        from django_admin_search.admin import BaseAdvacedSearchAdmin
+        from django_admin_search.admin import AdvacedSearchAdmin
         from .models import YourModel
         from .form import YourForm, YourFormSearch
 
         @register(YourModel)
-        class ModelAdmin(BaseAdvacedSearchAdmin):
+        class YourAdmin(AdvacedSearchAdmin):
             form = YourForm
             search_form = YourFormSearch
 
@@ -74,3 +74,19 @@ Obs: this project works only in django admin
                     'placeholder': 'MM/DD/YYYY'
                 }
             ))
+
+3. Custom filter query for a field
+
+        from django_admin_search.admin import AdvacedSearchAdmin
+        from .models import YourModel
+        from .form import YourForm, YourFormSearch
+
+        @register(YourModel)
+        class YourAdmin(AdvacedSearchAdmin):
+            def search_FieldNameHere(request, field_value, param_values):
+                """
+                    intercept query filter for description field
+                """
+                query = Q()
+                # your Q logic here
+                return query

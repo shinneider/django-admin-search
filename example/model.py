@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from django.db.models import Model, CharField, BooleanField, TextField, DateField
+from django.db.models import (BooleanField, CharField, DateField, Model,
+                              TextField)
 
 
 class Area(Model):
-    name = CharField( max_length=100)
+    name = CharField(max_length=100)
     active = BooleanField(default=True)
     description = TextField(max_length=500)
     date = DateField()

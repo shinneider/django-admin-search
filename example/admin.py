@@ -1,16 +1,20 @@
-from django_admin_search.admin import BaseAdvacedSearchAdmin
 from django.contrib.admin import register
+
+from django_admin_search.admin import AdvacedSearchAdmin
+
 from .form import AreaForm, AreaSearchForm
 from .models import Area
 
+
 @register(Area)
-class AreaAdmin(BaseAdvacedSearchAdmin):
+class AreaAdmin(AdvacedSearchAdmin):
     form = AreaForm
     search_form = AreaSearchForm
 
-
-    # you need intercept a search query for specific field ? try this:
-    # def search_YouFormFieldHere(request, field_value, get_values):
-    #   query = Q()
-    #   ...
-    #   return query
+    def search_description(request, field_value, param_values):
+        """
+            intercept query filter for description field
+        """
+        query = Q()
+        # your Q logic here
+        return query

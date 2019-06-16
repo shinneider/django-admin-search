@@ -1,2 +1,2 @@
 django==2.2.2
-django-admin-search==0.2.2
+django-admin-search

@@ -13,13 +13,13 @@ class AdvacedSearchAdmin(ModelAdmin):
     change_list_template = 'admin/custom_change_list.html'
     advanced_search_fields = {}
 
-    def lookup_allowed(self, lookup):
+    def lookup_allowed(self, lookup, value):
         """
             override django admin 'lookup_allowed'
         """
         if lookup in self.advanced_search_form().fields.keys():
             return True
-        return super().lookup_allowed(lookup)
+        return super().lookup_allowed(lookup, value)
 
     def get_queryset(self, request):
         """
@@ -28,7 +28,7 @@ class AdvacedSearchAdmin(ModelAdmin):
         qs = super().get_queryset(request)
         return self.advanced_search(request, qs)
 
-    def changelist_view(self, request, extra_context=None, **kwargs):
+    def changelist_view(self, request, extra_context=None):
         advanced_search_form = self.advanced_search_form(request.GET)
         extra_context = {'asf': advanced_search_form}
 
@@ -36,8 +36,8 @@ class AdvacedSearchAdmin(ModelAdmin):
             request.GET._mutable = True
 
             for key in advanced_search_form.fields.keys():
-                temp = request.GET.get(key, None)
-                if temp and temp != ['']:  # there is a field but it's empty so it's useless
+                temp = request.GET.pop(key, None)
+                if temp:  # there is a field but it's empty so it's useless
                     self.advanced_search_fields[key] = temp
 
             request.GET_mutable = False
@@ -63,23 +63,25 @@ class AdvacedSearchAdmin(ModelAdmin):
         if form is None:
             return query
 
-        for key, value in self.advanced_search_form().fields.items():
-            key_value = param_values[key][0] if key in param_values else None
-
-            if key_value is None:
-                continue
+        for field, form_field in self.advanced_search_form().fields.items():
+            field_value = param_values[field][0] if field in param_values else None
 
             # to overide default filter for a sigle field
-            if hasattr(self, ('search_' + key)):
-                query &= getattr(self, 'search_' + key)(request, key_value, param_values)
+            if hasattr(self, ('search_' + field)):
+                query &= getattr(self, 'search_' + field)(field, field_value,
+                                                          form_field, request,
+                                                          param_values)
                 continue
 
-            key = value.widget.attrs.get('filter_field', key)
-            field_query = key + value.widget.attrs.get('filter_method', '')
+            if field_value in [None, '']:
+                continue
+
+            field_name = form_field.widget.attrs.get('filter_field', field)
+            field_filter = field_name + form_field.widget.attrs.get('filter_method', '')
 
             try:
-                key_value = u.format_data(value, key_value)
-                query &= Q(**{field_query: key_value})
+                field_value = u.format_data(value, field_value)  # format by field type
+                query &= Q(**{field_filter: field_value})
             except:
                 continue
 

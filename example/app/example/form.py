@@ -11,7 +11,11 @@ class AreaSearchForm(Form):
         (False, 'Inactive')
     ]
 
-    name = CharField(required=False)
+    name = CharField(required=False, widget=TextInput(
+        attrs={
+            'filter_method': '__contains',
+        }
+    ))
     active = ChoiceField(choices=STATUS_CHOICES, required=False)
     description = CharField(required=False)
     begin = DateField(required=False, widget=TextInput(

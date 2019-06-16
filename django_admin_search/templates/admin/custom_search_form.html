@@ -4,6 +4,27 @@
 <!-- Stylesheet -->
 {% block stylesheet %}
     <style>
+        .form-field input[type=text], .form-field input[type=password], 
+        .form-field input[type=email], .form-field input[type=url], 
+        .form-field input[type=tel], .form-field input[type=number], 
+        .form-field textarea, .form-field select, .form-field .vTextField {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 6px 8px;
+            min-height: 36px;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .aligned label {
+            display: block;
+            padding: 4px 10px 0 0;
+            float: left;
+            width: 160px;
+            word-wrap: break-word;
+            line-height: 1;
+        }
+
         .advanced_search_form_body > input {
             margin-bottom: 15px;
         }
@@ -13,12 +34,19 @@
         }
         
         .form_submit_button {
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+
             height: 30px !important;
             width: 150px !important;
+            background-color: #fff!important;
+            border: 1px solid #ddd!important;
+            color: #454545!important;
         }
-        
+
         .search_button {
             padding-top: 10px;
+            margin-bottom: 20px;
         }
 
         .search_button > a{
@@ -38,12 +66,11 @@
 
 {% block modal %}
 
-    {% if cl.search_fields %}
     <form id="advaced_admin_search" class="modal" width=>
         
         <div class="advanced_search_form_body">
             {% block form_fields %}
-                {{asf}}
+                {% include "admin/custom_fieldset.html" %}
             {% endblock %}
         </div>
 
@@ -58,8 +85,6 @@
             {% if pair.0 != search_var %}<input type="hidden" name="{{ pair.0 }}" value="{{ pair.1 }}"/>{% endif %}
         {% endfor %}
         
-        <br />
-
         {% block modal_search_button %}
         <button id="submit_form" type="button" class="form_submit_button">
             {% block modal_search_button_text %}
@@ -69,7 +94,6 @@
         {% endblock %}
 
     </form>
-    {% endif %}
 
 {% endblock %}
 

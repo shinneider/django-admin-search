@@ -10,7 +10,7 @@ class Area(Model):
     date = DateField()
 
     def __str__(self):
-        return '{name}'.format(name=self.nome)
+        return '{name}'.format(name=self.name)
 
     class Meta:
         verbose_name = 'Area'

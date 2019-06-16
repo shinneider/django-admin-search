@@ -16,14 +16,7 @@ setup(
     author_email='shinneider-libanio@hotmail.com',
     url='https://github.com/shinneider/django_admin_search',
     license='MIT',
-    packages=find_packages() + [
-        'django_admin_search/templates',
-        'django_admin_search/static',
-        'django_admin_search/locale'
-    ],
-    install_requires=[
-        # 'Django>=2.0',
-        # 'Python>=3.5',
-    ],
+    packages=find_packages(exclude=['tests*']),
     include_package_data=True,
+    python_requires=">=3.3",
 )

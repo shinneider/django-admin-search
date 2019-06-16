@@ -80,7 +80,7 @@ class AdvacedSearchAdmin(ModelAdmin):
             field_filter = field_name + form_field.widget.attrs.get('filter_method', '')
 
             try:
-                field_value = u.format_data(value, field_value)  # format by field type
+                field_value = u.format_data(form_field, field_value)  # format by field type
                 query &= Q(**{field_filter: field_value})
             except:
                 continue

@@ -6,7 +6,7 @@ from django.db.models import Q
 from django_admin_search import utils as u
 
 
-class AdvacedSearchAdmin(ModelAdmin):
+class AdvancedSearchAdmin(ModelAdmin):
     """
         class to add custom filters in django admin
     """

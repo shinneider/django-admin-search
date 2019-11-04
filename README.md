@@ -45,12 +45,12 @@ Modal opened:
 
 3. In your admin:
     ```
-    from django_admin_search.admin import AdvacedSearchAdmin
+    from django_admin_search.admin import AdvancedSearchAdmin
     from .models import YourModel
     from .form import YourForm, YourFormSearch
 
     @register(YourModel)
-    class YourAdmin(AdvacedSearchAdmin):
+    class YourAdmin(AdvancedSearchAdmin):
         form = YourForm
         search_form = YourFormSearch
     ```
@@ -89,12 +89,12 @@ Modal opened:
 
 3. Custom filter query for a field
     ```
-    from django_admin_search.admin import AdvacedSearchAdmin
+    from django_admin_search.admin import AdvancedSearchAdmin
     from .models import YourModel
     from .form import YourForm, YourFormSearch
 
     @register(YourModel)
-    class YourAdmin(AdvacedSearchAdmin):
+    class YourAdmin(AdvancedSearchAdmin):
         def search_FieldNameHere(request, field_value, param_values):
             """
                 intercept query filter for description field

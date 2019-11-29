@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django import forms
 from django.conf import settings as s
 from django.utils import timezone
@@ -16,6 +18,9 @@ def format_data(value, key_value):
 
     if isinstance(value, forms.FloatField):
         return float(key_value)
+    
+    if isinstance(value, forms.DecimalField):
+        return Decimal(key_value)
 
     if isinstance(value, forms.IntegerField):
         return int(key_value)

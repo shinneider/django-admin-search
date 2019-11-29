@@ -1,14 +1,14 @@
 from django.contrib.admin import register
 from django.db.models import Q
 
-from django_admin_search.admin import AdvacedSearchAdmin
+from django_admin_search.admin import AdvancedSearchAdmin
 
 from .form import AreaForm, AreaSearchForm
 from .models import Area
 
 
 @register(Area)
-class AreaAdmin(AdvacedSearchAdmin):
+class AreaAdmin(AdvancedSearchAdmin):
     form = AreaForm
     search_form = AreaSearchForm
 

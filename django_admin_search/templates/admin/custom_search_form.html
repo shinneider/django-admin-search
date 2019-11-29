@@ -66,7 +66,7 @@
 
 {% block modal %}
 
-    <form id="advaced_admin_search" class="modal" width=>
+    <form id="advanced_admin_search" class="modal" width=>
         
         <div class="advanced_search_form_body">
             {% block form_fields %}
@@ -100,7 +100,7 @@
 {% block search_admin_button %}
     <div class="search_button">
         <!-- Link to open the modal -->
-        <a href="#advaced_admin_search" rel="modal:open" class="search_button">
+        <a href="#advanced_admin_search" rel="modal:open" class="search_button">
             <img src="{% static "admin/img/search.svg" %}" alt="Search" height="15"/> 
             <span>
                 {% block search_admin_button_text %}
@@ -132,7 +132,7 @@
         page = page == null ? 1 : ( $.isNumeric(page) ? parseInt(page) : 1 );
         
         $( "#submit_form" ).click(function() {
-            params = $('#advaced_admin_search').serialize() 
+            params = $('#advanced_admin_search').serialize() 
             href = window.location.pathname
             window.location.href = href + '?e=' + page + '&' + params;
         });

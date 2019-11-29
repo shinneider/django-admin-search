@@ -21,7 +21,7 @@ setup(
     python_requires=">=3.3",
     install_requires=[
         'django',
-    ]
+    ],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
@@ -36,5 +36,5 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Software Development :: Libraries :: Python Modules',
-    ],
+    ]
 )

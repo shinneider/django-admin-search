@@ -11,6 +11,7 @@ from .models import Area
 class AreaAdmin(AdvacedSearchAdmin):
     form = AreaForm
     search_form = AreaSearchForm
+    # list_per_page = 1
 
     def search_description(self, field, field_value, form_field, request, param_values):
         """

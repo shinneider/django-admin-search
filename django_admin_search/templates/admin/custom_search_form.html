@@ -66,7 +66,7 @@
 
 {% block modal %}
 
-    <form id="advanced_admin_search" class="modal" width=>
+    <form id="advanced_admin_search" class="modal" style="display: none;">
         
         <div class="advanced_search_form_body">
             {% block form_fields %}
@@ -86,7 +86,7 @@
         {% endfor %}
         
         {% block modal_search_button %}
-        <button id="submit_form" type="button" class="form_submit_button">
+        <button id="submit_form" type="submit" class="form_submit_button">
             {% block modal_search_button_text %}
                 {% trans 'filter'|title %}
             {% endblock %}
@@ -128,13 +128,20 @@
     <script>
         let searchParams = new URLSearchParams(window.location.search)
         
-        page = searchParams.get('e')
-        page = page == null ? 1 : ( $.isNumeric(page) ? parseInt(page) : 1 );
+        page = searchParams.get('p')
+        page = page == null ? 0 : ( $.isNumeric(page) ? parseInt(page) : 0 );
         
-        $( "#submit_form" ).click(function() {
+        $( "#advanced_admin_search" ).submit(function() {
+            $('#advanced_admin_search input').each(function(k, v) {
+                v.disabled = v.value === '';
+            });
             params = $('#advanced_admin_search').serialize() 
+            if (page != 0) {
+                params = 'p=' + page + '&';
+            }
             href = window.location.pathname
-            window.location.href = href + '?e=' + page + '&' + params;
+            window.location.href = href + '?' + params;
+            return false;
         });
     </script>
 

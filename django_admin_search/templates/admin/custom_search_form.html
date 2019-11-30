@@ -140,9 +140,10 @@
 
             /* 
                 
-                after changing the field, need to come back to first page
-                because the data is changed, the page length may also have
-                changed but if your need to keep a page, uncomment this
+                after apply filter is more common to leave user to the first page
+                because a data length is changed, current page may no longer exist 
+                (Ex, filter return empty queryset, nos has second page).
+                but if your need to keep a page, uncomment this
 
                 if (page != 0) { // this main current page
                     // params = 'p=' + page + '&' + params;

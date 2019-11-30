@@ -1,17 +1,9 @@
 Django Admin Search
 ===================
 
-this project implement a search modal in django admin to filter your queryset.
+This project implement a search modal in django admin to filter your queryset.
 
-Obs: this project works only in django admin
-
-# Images:
-
-Button in admin list:
-    ![input](https://user-images.githubusercontent.com/30196992/59556917-19182f00-8fa2-11e9-9d9a-955d73d79d11.png)
-
-Modal opened:
-    ![modal](https://user-images.githubusercontent.com/30196992/59556920-29c8a500-8fa2-11e9-8677-0f340762e64a.png)
+If you use or like the project, click `Star` and `Watch` to generate metrics and i evaluate project continuity.
 
 # Install:
     pip install django-admin-search
@@ -103,3 +95,11 @@ Modal opened:
             # your Q logic here
             return query
     ```
+
+# Images:
+
+Button in admin list:
+    ![input](https://user-images.githubusercontent.com/30196992/59556917-19182f00-8fa2-11e9-9d9a-955d73d79d11.png)
+
+Modal opened:
+    ![modal](https://user-images.githubusercontent.com/30196992/59556920-29c8a500-8fa2-11e9-8677-0f340762e64a.png)

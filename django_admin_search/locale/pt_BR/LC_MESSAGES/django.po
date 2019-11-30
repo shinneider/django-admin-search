@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-27 18:20-0300\n"
+"POT-Creation-Date: 2019-11-30 01:18-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: admin.py:79
+#, python-brace-format
+msgid "{err}, Filter ignored."
+msgstr "{err}, Filtros ignorados."
+
 #: apps.py:8
 msgid "Django Admin Search"
 msgstr ""
 
-#: templates/admin/custom_search_form.html:51
+#: templates/admin/custom_search_form.html:78
 #, python-format
 msgid "%(counter)s result"
 msgid_plural ""
@@ -31,21 +36,21 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/admin/custom_search_form.html:53
+#: templates/admin/custom_search_form.html:80
 #, python-format
 msgid ""
 "\n"
 "                                      %(full_result_count)s total"
 msgstr ""
 
-#: templates/admin/custom_search_form.html:54
+#: templates/admin/custom_search_form.html:81
 msgid "Show all"
 msgstr "Mostrar todos"
 
-#: templates/admin/custom_search_form.html:66
+#: templates/admin/custom_search_form.html:91
 msgid "filter"
 msgstr "filtrar"
 
-#: templates/admin/custom_search_form.html:83
+#: templates/admin/custom_search_form.html:107
 msgid "advanced search"
 msgstr "busca avançada"

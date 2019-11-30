@@ -11,10 +11,11 @@ def format_data(value, key_value):
     Return data converted by form type
     """
     if isinstance(value, forms.CharField) or isinstance(value, forms.TextInput) or \
-       isinstance(value, forms.BooleanField) or isinstance(value, forms.ChoiceField) or \
-       isinstance(value, forms.ModelChoiceField):
-
+       isinstance(value, forms.ChoiceField) or isinstance(value, forms.ModelChoiceField):
         return key_value
+
+    if isinstance(value, forms.BooleanField):
+        return bool(key_value)
 
     if isinstance(value, forms.FloatField):
         return float(key_value)
@@ -41,9 +42,6 @@ def parse_date(date_str, input_format):
     https://docs.djangoproject.com/en/2.0/ref/settings/#datetime-input-formats
     """
     for item in get_format(input_format):
-        try:
-            return timezone.datetime.strptime(date_str, item).date()
-        except (ValueError, TypeError):
-            continue
+        return timezone.datetime.strptime(date_str, item).date()
 
     raise Exception

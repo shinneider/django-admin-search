@@ -3,8 +3,9 @@ from django.contrib import messages
 from django.contrib.admin import ModelAdmin
 from django.contrib.admin.views.main import ChangeList
 from django.db.models import Q
+from django.utils.translation import ugettext_lazy as _
 
-from django_admin_search import utils as u
+from django_admin_search import utils
 
 
 class AdvancedSearchAdmin(ModelAdmin):
@@ -18,38 +19,38 @@ class AdvancedSearchAdmin(ModelAdmin):
         """
             override django admin 'get_queryset'
         """
-        qs = super().get_queryset(request)
-        return self.advanced_search(request, qs)
+        queryset = super().get_queryset(request)
+        try:
+            return super().get_queryset(request).filter(
+                self.advanced_search_query(request, self.advanced_search_fields)
+            )
+        except Exception as err:
+            messages.add_message(request, messages.ERROR, str(err))
+            return queryset.none()
         
-    def get_changelist_instance(self, request):
-        """
-        prevent error by removing advanced search params from GET params
-        """
-        request.GET._mutable = True
-        self.extract_advanced_search_terms(request.GET)
-        request.GET._mutable = False
-        return super().get_changelist_instance(request)
-
     def changelist_view(self, request, extra_context=None):
         self.search_form_data = self.search_form(request.GET)
+        self.extract_advanced_search_terms(request.GET)
         extra_context = {'asf': self.search_form_data}
         return super().changelist_view(request, extra_context=extra_context)
 
-    def extract_advanced_search_terms(self, param_dict):
+    def extract_advanced_search_terms(self, request):
+        request._mutable = True
+
         if self.search_form_data is not None:
             for key in self.search_form_data.fields.keys():
-                temp = param_dict.pop(key, None)
+                temp = request.pop(key, None)
                 if temp:  # there is a field but it's empty so it's useless
                     self.advanced_search_fields[key] = temp
-                    
-    def advanced_search(self, request, qs):
-        qs = qs.filter(self.advanced_search_query(request, Q(), self.advanced_search_fields))
-        return qs
-    
-    def advanced_search_query(self, request, query, param_values):
+
+        request._mutable = False
+
+    def advanced_search_query(self, request, param_values):
         """
             Get form and mount filter query if form is not none
         """
+        query = Q()
+        
         form = self.search_form_data
         if form is None:
             return query
@@ -71,9 +72,12 @@ class AdvancedSearchAdmin(ModelAdmin):
             field_filter = field_name + form_field.widget.attrs.get('filter_method', '')
 
             try:
-                field_value = u.format_data(form_field, field_value)  # format by field type
+                field_value = utils.format_data(form_field, field_value)  # format by field type
                 query &= Q(**{field_filter: field_value})
-            except:
+            except Exception as err:
+                messages.add_message(request, messages.ERROR, 
+                    _("{err}, Filter ignored.").format(err=err)
+                )
                 continue
-
+        
         return query

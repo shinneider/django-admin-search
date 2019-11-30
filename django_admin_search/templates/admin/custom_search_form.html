@@ -135,10 +135,20 @@
             $('#advanced_admin_search input').each(function(k, v) {
                 v.disabled = v.value === '';
             });
-            params = $('#advanced_admin_search').serialize() 
-            if (page != 0) {
-                params = 'p=' + page + '&';
-            }
+            
+            params = $('#advanced_admin_search').serialize()
+
+            /* 
+                
+                after changing the field, need to come back to first page
+                because the data is changed, the page length may also have
+                changed but if your need to keep a page, uncomment this
+
+                if (page != 0) { // this main current page
+                    // params = 'p=' + page + '&' + params;
+                }
+            */
+            
             href = window.location.pathname
             window.location.href = href + '?' + params;
             return false;

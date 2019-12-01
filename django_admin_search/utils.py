@@ -1,47 +1,26 @@
-from decimal import Decimal
-
 from django import forms
-from django.conf import settings as s
-from django.utils import timezone
-from django.utils.formats import get_format
 
 
 def format_data(value, key_value):
     """
     Return data converted by form type
     """
-    if isinstance(value, forms.CharField) or isinstance(value, forms.TextInput) or \
-       isinstance(value, forms.ChoiceField) or isinstance(value, forms.ModelChoiceField):
+    if isinstance(value, forms.ChoiceField) or isinstance(value, forms.ModelChoiceField):
+        value.clean(key_value)
         return key_value
 
-    if isinstance(value, forms.BooleanField):
+    elif isinstance(value, forms.TextInput):
+        return str(key_value)
+
+    elif isinstance(value, forms.BooleanField):
+        """
+            this is a erro in django :o
+            forms.BooleanField().validate(value=False) generate a erro,
+            but 'False' is a valid value for BooleanField
+            I opened a ticket https://code.djangoproject.com/ticket/31049
+            after resolution, exclude this section
+        """
         return bool(key_value)
 
-    if isinstance(value, forms.FloatField):
-        return float(key_value)
-    
-    if isinstance(value, forms.DecimalField):
-        return Decimal(key_value)
-
-    if isinstance(value, forms.IntegerField):
-        return int(key_value)
-
-    if isinstance(value, forms.DateField):
-        return parse_date(key_value, 'DATE_INPUT_FORMATS')
-
-    if isinstance(value, forms.DateTimeField):
-        return parse_date(key_value, 'DATETIME_INPUT_FORMATS')
-
-    raise Exception
-
-
-def parse_date(date_str, input_format):
-    """
-    Parse date by django date and datetime formats
-    https://docs.djangoproject.com/en/2.0/ref/settings/#date-input-formats
-    https://docs.djangoproject.com/en/2.0/ref/settings/#datetime-input-formats
-    """
-    for item in get_format(input_format):
-        return timezone.datetime.strptime(date_str, item).date()
-
-    raise Exception
+    else:
+        return value.clean(key_value)

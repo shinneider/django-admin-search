@@ -73,7 +73,7 @@ class AdvancedSearchAdmin(ModelAdmin):
             field_filter = field_name + form_field.widget.attrs.get('filter_method', '')
 
             try:
-                field_value = form_field.clean(field_value)  # format by field type
+                field_value = utils.format_data(form_field, field_value)  # format by field type
                 query &= Q(**{field_filter: field_value})
             except ValidationError as err:
                 messages.add_message(request, messages.ERROR, 

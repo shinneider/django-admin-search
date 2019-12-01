@@ -40,9 +40,13 @@ class TestCrawlerGetData(unittest.TestCase):
         self.assertRaises(ValidationError, lambda: format_data(field, 'true'))
         self.assertRaises(ValidationError, lambda: format_data(field, 'false'))
 
-    # def test_model_choice_field_parse(self):
-    #     field = forms.ModelChoiceField()
-    #     self.fail('No test here')
+    def test_model_choice_field_parse(self):
+        """
+            TODO: Create a test got ModelChoiceField
+            I don't know how to test this
+        """
+        # field = forms.ModelChoiceField(queryset=???)
+        # self.fail('No test here')
 
     def test_boolean_field_parse(self):
         field = forms.BooleanField()

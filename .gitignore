@@ -10,6 +10,10 @@
 *.sqlite3
 *.sql
 
+# Test's
+/htmlcov/*
+.coverage
+
 # Others
 /venv/*
 /dist/*

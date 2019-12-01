@@ -8,6 +8,8 @@ from django_admin_search.meta import VERSION
 
 extras_require = {
     'dev': [
+        'django',
+        'django_mock_queries',
         'pytest',
         'pytest-cov',
         'pytest-watch'

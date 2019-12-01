@@ -121,3 +121,10 @@ If your work in high difficult test, and need to re run the test every time, use
 ptw  # this see file change and re run a test
 ```
 
+when you need to see passed lines by test, run 
+```
+pytest --cov-report html
+```
+after this, will be created a `htmlcov` folder in the root 
+
+

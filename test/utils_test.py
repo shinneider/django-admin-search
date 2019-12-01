@@ -3,15 +3,12 @@ from datetime import date, datetime
 from decimal import Decimal
 from django_admin_search.utils import format_data
 from django import forms
-from django.conf import settings
+from django.db import models
 from django.core.exceptions import ValidationError
+from django_mock_queries.query import MockSet, MockModel
 
 
 class TestCrawlerGetData(unittest.TestCase):
-
-    @classmethod
-    def setUpClass(cls):
-        settings.configure()
 
     def test_char_field_parse(self):
         field = forms.CharField()
@@ -23,13 +20,13 @@ class TestCrawlerGetData(unittest.TestCase):
         self.assertRaises(ValidationError, lambda: format_data(field, ' '))
 
     def test_text_field_parse(self):
-        field = forms.CharField()
+        field = forms.TextInput()
         self.assertEqual(format_data(field, '1'), '1')
         self.assertEqual(format_data(field, 1), '1')
         self.assertEqual(format_data(field, False), 'False')
         self.assertEqual(format_data(field, 0), '0')
         self.assertEqual(format_data(field, '%20F'), '%20F')
-        self.assertRaises(ValidationError, lambda: format_data(field, ' '))
+        self.assertEqual(format_data(field, ' '), ' ')
 
     def test_choice_field_parse(self):
         field = forms.ChoiceField(choices=[(True, 'True'), (False, 'False')])
@@ -41,12 +38,13 @@ class TestCrawlerGetData(unittest.TestCase):
         self.assertRaises(ValidationError, lambda: format_data(field, 'false'))
 
     def test_model_choice_field_parse(self):
-        """
-            TODO: Create a test for ModelChoiceField
-            I don't know how to test this
-        """
-        # field = forms.ModelChoiceField(queryset=???)
-        # self.fail('No test here')
+        qs = MockSet(MockModel(pk=0), MockModel(pk=1), MockModel(pk=2))
+        field = forms.ModelChoiceField(queryset=qs)
+        
+        self.assertEqual(format_data(field, 0), 0)
+        self.assertEqual(format_data(field, 1), 1)
+        self.assertEqual(format_data(field, 2), 2)
+        self.assertRaises(AttributeError, lambda: format_data(field, 4))
 
     def test_boolean_field_parse(self):
         field = forms.BooleanField()

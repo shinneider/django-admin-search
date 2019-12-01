@@ -42,7 +42,7 @@ class TestCrawlerGetData(unittest.TestCase):
 
     def test_model_choice_field_parse(self):
         """
-            TODO: Create a test got ModelChoiceField
+            TODO: Create a test for ModelChoiceField
             I don't know how to test this
         """
         # field = forms.ModelChoiceField(queryset=???)

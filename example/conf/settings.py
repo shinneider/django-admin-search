@@ -41,7 +41,7 @@ INSTALLED_APPS = [
 
     # Third part apps
     'django_admin_search',
-
+    
     # Developed apps
     'app.example',
 ]

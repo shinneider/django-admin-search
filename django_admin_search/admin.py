@@ -4,6 +4,7 @@ from django.contrib.admin import ModelAdmin
 from django.contrib.admin.views.main import ChangeList
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
+from django.core.exceptions import ValidationError
 
 from django_admin_search import utils
 
@@ -74,9 +75,18 @@ class AdvancedSearchAdmin(ModelAdmin):
             try:
                 field_value = utils.format_data(form_field, field_value)  # format by field type
                 query &= Q(**{field_filter: field_value})
+            except ValidationError as err:
+                messages.add_message(request, messages.ERROR, 
+                    _("Filter in field `{field}` ignored, because value `{value}` isn't valid").format(
+                        value=field_value, field=field_name
+                    )
+                )
+                continue
             except Exception as err:
                 messages.add_message(request, messages.ERROR, 
-                    _("{err}, Filter ignored.").format(err=err)
+                    _("Filter in field `{field}` ignored, error has occurred.").format(
+                        err=err, field=field_name
+                    )
                 )
                 continue
         

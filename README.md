@@ -1,7 +1,7 @@
 Django Admin Search
 ===================
 
-This project implement a search modal in django admin to filter your queryset.
+The "Django Admin Search" is a advanced search modal for django admin.
 
 If you use or like the project, click `Star` and `Watch` to generate metrics and i evaluate project continuity.
 
@@ -103,3 +103,28 @@ Button in admin list:
 
 Modal opened:
     ![modal](https://user-images.githubusercontent.com/30196992/59556920-29c8a500-8fa2-11e9-8677-0f340762e64a.png)
+
+
+# Development and Running the Tests
+To do development work for Django Admin Search, clone it locally, make and activate a virtualenv for it, then from within the project directory:
+```
+pip install -e .[dev]
+```
+
+To run the tests:
+```
+pytest
+```
+
+If your work in high difficult test, and need to re run the test every time, use `pytest-watch`:
+```
+ptw  # this see file change and re run a test
+```
+
+when you need to see passed lines by test, run 
+```
+pytest --cov-report html
+```
+after this, will be created a `htmlcov` folder in the root 
+
+

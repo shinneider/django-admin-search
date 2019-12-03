@@ -6,6 +6,16 @@ from setuptools import find_packages, setup
 
 from django_admin_search.meta import VERSION
 
+extras_require = {
+    'dev': [
+        'django',
+        'django_mock_queries',
+        'pytest',
+        'pytest-cov',
+        'pytest-watch'
+    ]
+}
+
 setup(
     name='django-admin-search',
     version=str(VERSION),
@@ -19,6 +29,7 @@ setup(
     packages=find_packages(exclude=['tests*']),
     include_package_data=True,
     python_requires=">=3.3",
+    extras_require=extras_require,
     install_requires=[
         'django',
     ],

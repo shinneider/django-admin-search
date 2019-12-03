@@ -21,7 +21,6 @@ class AdvancedSearchAdmin(ModelAdmin):
             override django admin 'get_queryset'
         """
         queryset = super().get_queryset(request)
-        return queryset
         try:
             return queryset.filter(
                 self.advanced_search_query(request)
@@ -92,4 +91,5 @@ class AdvancedSearchAdmin(ModelAdmin):
                 )
                 continue
         
+        print(1111, query)
         return query

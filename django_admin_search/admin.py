@@ -26,7 +26,7 @@ class AdvancedSearchAdmin(ModelAdmin):
                 self.advanced_search_query(request)
             )
         except Exception as err:
-            messages.add_message(request, messages.ERROR, str(err))
+            messages.add_message(request, messages.ERROR, 'Filter not applied, error has occurred')
             return queryset.none()
         
     def changelist_view(self, request, extra_context=None):
@@ -91,5 +91,4 @@ class AdvancedSearchAdmin(ModelAdmin):
                 )
                 continue
         
-        print(1111, query)
         return query

@@ -21,9 +21,10 @@ class AdvancedSearchAdmin(ModelAdmin):
             override django admin 'get_queryset'
         """
         queryset = super().get_queryset(request)
+        return queryset
         try:
-            return super().get_queryset(request).filter(
-                self.advanced_search_query(request, self.advanced_search_fields)
+            return queryset.filter(
+                self.advanced_search_query(request)
             )
         except Exception as err:
             messages.add_message(request, messages.ERROR, str(err))
@@ -46,11 +47,12 @@ class AdvancedSearchAdmin(ModelAdmin):
 
         request._mutable = False
 
-    def advanced_search_query(self, request, param_values):
+    def advanced_search_query(self, request):
         """
             Get form and mount filter query if form is not none
         """
         query = Q()
+        param_values = self.advanced_search_fields
         
         form = self.search_form_data
         if form is None:

@@ -2,7 +2,7 @@ import unittest
 from django_admin_search.meta import VERSION
 
 
-class TestCrawlerGetData(unittest.TestCase):
+class TestMetaFormat(unittest.TestCase):
 
     def test_version_format(self):
         """

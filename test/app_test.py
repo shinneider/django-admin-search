@@ -3,7 +3,7 @@ from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 from django_admin_search.apps import DjangoAdminSearchConfig
 
-class TestCrawlerGetData(unittest.TestCase):
+class TestDjangoAppConfig(unittest.TestCase):
 
     def test_valid_subclass_appconfig(self):
         """

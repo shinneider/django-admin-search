@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 from django_mock_queries.query import MockSet, MockModel
 
 
-class TestCrawlerGetData(unittest.TestCase):
+class TestUtilsFunctions(unittest.TestCase):
 
     def test_char_field_parse(self):
         field = forms.CharField()

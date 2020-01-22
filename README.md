@@ -127,6 +127,13 @@ pytest --cov-report html
 ```
 after this, will be created a `htmlcov` folder in the root 
 
+To run sonar 
+```
+pytest --cov-report xml
+pylint ./django_admin_search/ --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" | tee pylint.txt
+sonar-scanner
+```
+
 See your code quality in Sonar (in testing, no metrics to approve yet)
 ```
 https://sonarcloud.io/dashboard?id=shinneider_django-admin-search

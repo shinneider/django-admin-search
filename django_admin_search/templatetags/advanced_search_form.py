@@ -2,7 +2,7 @@ from django.contrib.admin.views.main import SEARCH_VAR
 from django.template import Library
 from django.template.loader import render_to_string
 
-register = Library()
+register = Library()  # pylint: disable=C0103
 
 
 # @register.inclusion_tag('admin/custom_search_form.html', takes_context=True)

@@ -12,7 +12,8 @@
 
 # Test's
 /htmlcov/*
-.coverage
+.coverage/
+.coverage*
 coverage.xml
 pylint.txt
 

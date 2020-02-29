@@ -1,12 +1,9 @@
 {% load i18n static %}
 
-<head>
-    <!-- Stylesheet connection -->
-    {% block stylesheet %} {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> {% endblock %}
-</head>
 
-{% block modal %}
+<!-- Stylesheet connection -->
+{% block stylesheet %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}"> {% endblock %} {% block modal %}
 
 <form id="advanced_admin_search" class="modal" style="display: none;">
 

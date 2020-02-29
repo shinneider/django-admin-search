@@ -1,159 +1,87 @@
 {% load i18n static %}
 
 
-<!-- Stylesheet -->
-{% block stylesheet %}
-    <style>
-        .form-field input[type=text], .form-field input[type=password], 
-        .form-field input[type=email], .form-field input[type=url], 
-        .form-field input[type=tel], .form-field input[type=number], 
-        .form-field textarea, .form-field select, .form-field .vTextField {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 6px 8px;
-            min-height: 36px;
-            font-size: 14px;
-            width: 100%;
-        }
+<!-- Stylesheet connection -->
+{% block stylesheet %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}"> {% endblock %} {% block modal %}
 
-        .aligned label {
-            display: block;
-            padding: 4px 10px 0 0;
-            float: left;
-            width: 160px;
-            word-wrap: break-word;
-            line-height: 1;
-        }
+<form id="advanced_admin_search" class="modal" style="display: none;">
 
-        .advanced_search_form_body > input {
-            margin-bottom: 15px;
-        }
+    <div class="advanced_search_form_body">
+        {% block form_fields %} {% include "admin/custom_fieldset.html" %} {% endblock %}
+    </div>
 
-        .advanced_search_form_body > select {
-            margin-bottom: 15px;
-        }
-        
-        .form_submit_button {
-            -webkit-transition-duration: 0.4s; /* Safari */
-            transition-duration: 0.4s;
-
-            height: 30px !important;
-            width: 150px !important;
-            background-color: #fff!important;
-            border: 1px solid #ddd!important;
-            color: #454545!important;
-        }
-
-        .search_button {
-            padding-top: 10px;
-            margin-bottom: 20px;
-        }
-
-        .search_button > a{
-            background-image: none!important;
-            padding: 9px 20px 9px 20px !important;
-            border-radius: 3px!important;
-            color: #454545!important;
-            font-size: 16px!important;
-            text-transform: none!important;
-            letter-spacing: normal!important;
-            background-color: #fff!important;
-            border: 1px solid #ddd!important;
-            background-clip: padding-box;
-        }
-    </style>
-{% endblock %}
-
-{% block modal %}
-
-    <form id="advanced_admin_search" class="modal" style="display: none;">
-        
-        <div class="advanced_search_form_body">
-            {% block form_fields %}
-                {% include "admin/custom_fieldset.html" %}
-            {% endblock %}
-        </div>
-
-        {% if show_result_count %}
-            <span class="small quiet">{% blocktrans count counter=cl.result_count %}{{ counter }} result{% plural %}{{ counter }} 
+    {% if show_result_count %}
+    <span class="small quiet">{% blocktrans count counter=cl.result_count %}{{ counter }} result{% plural %}{{ counter }} 
                                       results{% endblocktrans %} (<a href="?{% if cl.is_popup %}_popup=1{% endif %}">
                                       {% if cl.show_full_result_count %}{% blocktrans with full_result_count=cl.full_result_count %}
                                       {{ full_result_count }} total{% endblocktrans %}{% else %}{% trans "Show all" %}{% endif %}</a>)
-            </span>
-        {% endif %}
-        {% for pair in cl.params.items %}
-            {% if pair.0 != search_var %}<input type="hidden" name="{{ pair.0 }}" value="{{ pair.1 }}"/>{% endif %}
-        {% endfor %}
-        
-        {% block modal_search_button %}
-        <button id="submit_form" type="submit" class="form_submit_button">
+            </span> {% endif %} {% for pair in cl.params.items %} {% if pair.0 != search_var %}<input type="hidden" name="{{ pair.0 }}" value="{{ pair.1 }}" />{% endif %} {% endfor %} {% block modal_search_button %}
+    <button id="submit_form" type="submit" class="form_submit_button">
             {% block modal_search_button_text %}
                 {% trans 'filter'|title %}
             {% endblock %}
-        </button>
-        {% endblock %}
+        </button> {% endblock %}
 
-    </form>
+</form>
 
-{% endblock %}
-
-{% block search_admin_button %}
-    <div class="search_button">
-        <!-- Link to open the modal -->
-        <a href="#advanced_admin_search" rel="modal:open" class="search_button">
-            <img src="{% static "admin/img/search.svg" %}" alt="Search" height="15"/> 
-            <span>
+{% endblock %} {% block search_admin_button %}
+<div class="search_button">
+    <!-- Link to open the modal -->
+    <a href="#advanced_admin_search" rel="modal:open" class="search_button">
+        <img src="{% static " admin/img/search.svg " %}" alt="Search" height="15" />
+        <span>
                 {% block search_admin_button_text %}
                     {% trans 'advanced search'|title %}
                 {% endblock %}
             </span>
-        </a>
-    </div>
+    </a>
+</div>
 {% endblock %}
 
 
 <!-- Scripts -->
 {% block scripts %}
-    <!-- jQuery -->
-    <script src="{% static 'jquery/jquery.min.js' %}"></script>
+<!-- jQuery -->
+<script src="{% static 'jquery/jquery.min.js' %}"></script>
 
-    <!-- JQuery Mask-->
-    <script src="{% static 'jquery_mask/jquerymask.js' %}"></script>
+<!-- JQuery Mask-->
+<script src="{% static 'jquery_mask/jquerymask.js' %}"></script>
 
-    <!-- jQuery Modal -->
-    <script src="{% static 'jquery_modal/jquery.modal.min.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'jquery_modal/jquery.modal.min.css' %}" />
+<!-- jQuery Modal -->
+<script src="{% static 'jquery_modal/jquery.modal.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'jquery_modal/jquery.modal.min.css' %}" />
 
-    <!-- Submit Button (Get parameters)-->
-    <script>
-        let searchParams = new URLSearchParams(window.location.search)
-        
-        page = searchParams.get('p')
-        page = page == null ? 0 : ( $.isNumeric(page) ? parseInt(page) : 0 );
-        
-        $( "#advanced_admin_search" ).submit(function() {
-            $('#advanced_admin_search input').each(function(k, v) {
-                v.disabled = v.value === '';
-            });
-            
-            params = $('#advanced_admin_search').serialize()
+<!-- Submit Button (Get parameters)-->
+<script>
+    let searchParams = new URLSearchParams(window.location.search)
 
-            /* 
-                
-                after apply filter is more common to leave user to the first page
-                because a data length is changed, current page may no longer exist 
-                (Ex, filter return empty queryset, nos has second page).
-                but if your need to keep a page, uncomment this
+    page = searchParams.get('p')
+    page = page == null ? 0 : ($.isNumeric(page) ? parseInt(page) : 0);
 
-                if (page != 0) { // this main current page
-                    // params = 'p=' + page + '&' + params;
-                }
-            */
-            
-            href = window.location.pathname
-            window.location.href = href + '?' + params;
-            return false;
+    $("#advanced_admin_search").submit(function() {
+        $('#advanced_admin_search input').each(function(k, v) {
+            v.disabled = v.value === '';
         });
-    </script>
+
+        params = $('#advanced_admin_search').serialize()
+
+        /* 
+            
+            after apply filter is more common to leave user to the first page
+            because a data length is changed, current page may no longer exist 
+            (Ex, filter return empty queryset, nos has second page).
+            but if your need to keep a page, uncomment this
+
+            if (page != 0) { // this main current page
+                // params = 'p=' + page + '&' + params;
+            }
+        */
+
+        href = window.location.pathname
+        window.location.href = href + '?' + params;
+        return false;
+    });
+</script>
 
 {% endblock %}

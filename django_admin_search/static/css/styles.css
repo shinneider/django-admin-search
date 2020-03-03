@@ -1,0 +1,62 @@
+.form-field input[type=text],
+.form-field input[type=password],
+.form-field input[type=email],
+.form-field input[type=url],
+.form-field input[type=tel],
+.form-field input[type=number],
+.form-field textarea,
+.form-field select,
+.form-field .vTextField {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 6px 8px;
+    min-height: 36px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.aligned label {
+    display: block;
+    padding: 4px 10px 0 0;
+    float: left;
+    width: 160px;
+    word-wrap: break-word;
+    line-height: 1;
+}
+
+.advanced_search_form_body>input {
+    margin-bottom: 15px;
+}
+
+.advanced_search_form_body>select {
+    margin-bottom: 15px;
+}
+
+.form_submit_button {
+    -webkit-transition-duration: 0.4s;
+    /* Safari */
+    transition-duration: 0.4s;
+    height: 30px !important;
+    width: 150px !important;
+    background-color: #fff!important;
+    border: 1px solid #ddd!important;
+    color: #454545!important;
+}
+
+.search_button {
+    padding-top: 10px;
+    margin-bottom: 20px;
+}
+
+.search_button>a {
+    background-image: none!important;
+    padding: 9px 20px 9px 20px !important;
+    border-radius: 3px!important;
+    color: #454545!important;
+    font-size: 16px!important;
+    text-transform: none!important;
+    letter-spacing: normal!important;
+    background-color: #fff!important;
+    border: 1px solid #ddd!important;
+    background-clip: padding-box;
+}

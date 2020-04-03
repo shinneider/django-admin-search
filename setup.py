@@ -10,6 +10,8 @@ extras_require = {
     'dev': [
         'django',
         'django_mock_queries',
+        'pylint',
+        'pytest-pylint',
         'pytest',
         'pytest-cov',
         'pytest-watch'

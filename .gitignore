@@ -12,7 +12,13 @@
 
 # Test's
 /htmlcov/*
-.coverage
+.coverage/
+.coverage*
+coverage.xml
+pylint.txt
+
+# SonarQube
+.scannerwork
 
 # Others
 /venv/*

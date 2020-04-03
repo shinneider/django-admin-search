@@ -6,6 +6,7 @@ from django.conf import settings
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 settings.configure()
+
 settings.INSTALLED_APPS = [
     # Django apps
     'django.contrib.admin',
@@ -26,5 +27,6 @@ settings.TEMPLATES = [
         'APP_DIRS': True,
     },
 ]
+
 settings.STATIC_URL = '/'
 django.setup()

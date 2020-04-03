@@ -1,0 +1,7 @@
+[MASTER]
+
+# Formatter for sonarqube
+# msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}"
+
+# Disable module and class docstring
+disable=C0114,C0115

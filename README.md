@@ -1,5 +1,11 @@
 Django Admin Search
 ===================
+[![Downloads](https://pepy.tech/badge/django-admin-search)](https://pepy.tech/project/django-admin-search)
+[![Downloads](https://pepy.tech/badge/django-admin-search/month)](https://pepy.tech/project/django-admin-search/month)
+[![Downloads](https://pepy.tech/badge/django-admin-search/week)](https://pepy.tech/project/django-admin-search/week)
+
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=shinneider_django-admin-search&metric=coverage)](https://sonarcloud.io/dashboard?id=shinneider_django-admin-search)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=shinneider_django-admin-search&metric=alert_status)](https://sonarcloud.io/dashboard?id=shinneider_django-admin-search)
 
 The "Django Admin Search" is a advanced search modal for django admin.
 

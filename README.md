@@ -6,7 +6,7 @@ Django Admin Search
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=shinneider_django-admin-search&metric=coverage)](https://sonarcloud.io/dashboard?id=shinneider_django-admin-search)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=shinneider_django-admin-search&metric=alert_status)](https://sonarcloud.io/dashboard?id=shinneider_django-admin-search)
-[![pypi-version](https://img.shields.io/pypi/v/pkgversion.svg)](https://pypi.python.org/pypi/pkgversion)  
+[![PyPI version](https://badge.fury.io/py/django-admin-search.svg)](https://badge.fury.io/py/django-admin-search)  
 The "Django Admin Search" is a advanced search modal for django admin.
 
 If you use or like the project, click `Star` and `Watch` to generate metrics and i evaluate project continuity.

@@ -5,7 +5,7 @@ def format_data(value, key_value):
     """
     Return data converted by form type
     """
-    if isinstance(value, forms.ChoiceField, forms.ModelChoiceField):
+    if isinstance(value, (forms.ChoiceField, forms.ModelChoiceField)):
         value.clean(key_value)
         return key_value
 

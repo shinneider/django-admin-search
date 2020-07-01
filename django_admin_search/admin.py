@@ -30,6 +30,7 @@ class AdvancedSearchAdmin(ModelAdmin):
             return queryset.none()
 
     def changelist_view(self, request, extra_context=None):
+        self.advanced_search_fields = {}
         self.search_form_data = self.search_form(request.GET)
         self.extract_advanced_search_terms(request.GET)
         extra_context = {'asf': self.search_form_data}

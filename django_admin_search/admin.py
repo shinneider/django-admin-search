@@ -37,7 +37,6 @@ class AdvancedSearchAdmin(ModelAdmin):
     def extract_advanced_search_terms(self, request):
         request._mutable = True  # pylint: disable=W0212
 
-        self.advanced_search_fields = {}
         if self.search_form_data is not None:
             for key in self.search_form_data.fields.keys():
                 temp = request.pop(key, None)

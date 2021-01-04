@@ -22,9 +22,7 @@ class AdvancedSearchAdmin(ModelAdmin):
         """
         queryset = super().get_queryset(request)
         try:
-            return queryset.filter(
-                self.advanced_search_query(request)
-            )
+            return queryset.filter(self.advanced_search_query(request))
         except Exception:
             messages.add_message(request, messages.ERROR, 'Filter not applied, error has occurred')
             return queryset.none()
@@ -39,6 +37,7 @@ class AdvancedSearchAdmin(ModelAdmin):
     def extract_advanced_search_terms(self, request):
         request._mutable = True  # pylint: disable=W0212
 
+        self.advanced_search_fields = {}
         if self.search_form_data is not None:
             for key in self.search_form_data.fields.keys():
                 temp = request.pop(key, None)
@@ -47,44 +46,61 @@ class AdvancedSearchAdmin(ModelAdmin):
 
         request._mutable = False  # pylint: disable=W0212
 
-    def advanced_search_query(self, request):
+    def get_field_value(self, field):
         """
-            Get form and mount filter query if form is not none
+            check if field has value passed on request
         """
-        query = Q()
-        param_values = self.advanced_search_fields
+        if field in self.advanced_search_fields:
+            return True, self.advanced_search_fields[field][0]
 
-        form = self.search_form_data
-        if form is None:
-            return query
+        return False, None
 
-        for field, form_field in self.search_form_data.fields.items():
-            field_value = param_values[field][0] if field in param_values else None
+    def get_field_value_override(self, field, field_value, form_field, request):
+        """
+            allow to override default field query
+        """
+        if hasattr(self, ('search_' + field)):
+            return getattr(self, 'search_' + field)(field, field_value, form_field, request,
+                                                    self.advanced_search_fields)
+        return Q()
 
-            # to overide default filter for a sigle field
-            if hasattr(self, ('search_' + field)):
-                query &= getattr(self, 'search_' + field)(field, field_value,
-                                                          form_field, request,
-                                                          param_values)
-                continue
-
-            if field_value in [None, '']:
-                continue
-
+    @staticmethod
+    def get_field_value_default(field, form_field, field_value, has_field_value, request):
+        """
+            mount default field value
+        """
+        if has_field_value:
             field_name = form_field.widget.attrs.get('filter_field', field)
             field_filter = field_name + form_field.widget.attrs.get('filter_method', '')
 
             try:
                 field_value = utils.format_data(form_field, field_value)  # format by field type
-                query &= Q(**{field_filter: field_value})
+                return Q(**{field_filter: field_value})
             except ValidationError:
-                messages.add_message(request, messages.ERROR, _(f"Filter in field `{field_value}` "
+                messages.add_message(request, messages.ERROR, _(f"Filter in field `{field_name}` "
                                                                 "ignored, because value "
-                                                                "`{field_name}` isn't valid"))
-                continue
+                                                                f"`{field_value}` isn't valid"))
             except Exception:
                 messages.add_message(request, messages.ERROR, _(f"Filter in field `{field_name}` "
                                                                 "ignored, error has occurred."))
-                continue
+
+        return Q()
+
+    def advanced_search_query(self, request):
+        """
+            Get form and mount filter query if form is not none
+        """
+        query = Q()
+
+        if self.search_form_data is None:
+            return query
+
+        for field, form_field in self.search_form_data.fields.items():
+            has_field_value, field_value = self.get_field_value(field)
+
+            if hasattr(self, ('search_' + field)):
+                query &= self.get_field_value_override(field, field_value, form_field, request)
+            else:
+                query &= self.get_field_value_default(field, form_field, field_value, has_field_value, request)
 
         return query

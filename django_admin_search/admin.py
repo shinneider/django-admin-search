@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 
 from django_admin_search import utils
+from django_admin_search.forms import OverrideSearchForm
 
 
 class AdvancedSearchAdmin(ModelAdmin):
@@ -15,6 +16,7 @@ class AdvancedSearchAdmin(ModelAdmin):
     change_list_template = 'admin/custom_change_list.html'
     advanced_search_fields = {}
     search_form_data = None
+    search_form = OverrideSearchForm
 
     def get_queryset(self, request):
         """

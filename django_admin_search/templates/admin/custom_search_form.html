@@ -68,6 +68,13 @@
 
     <!-- Submit Button (Get parameters)-->
     <script>
+        let array = window.location.search.substring(1).split("&");
+        for (let i = 0; i < array.length; i++) {
+            [key, value] = array[i].split("=")
+            if (key !== 'o'&& key !== 'q' && value != null && !key.includes("__")){
+                 document.getElementById("id_" + key).value = decodeURIComponent(value);
+            }
+        }
         let searchParams = new URLSearchParams(window.location.search)
         
         page = searchParams.get('p')

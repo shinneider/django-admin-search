@@ -4,5 +4,6 @@ include README.md
 recursive-include django_admin_search/templates *
 recursive-include django_admin_search/static *
 recursive-include django_admin_search/locale *
-global-exclude __pycache__
 global-exclude *.py[co]
+prune __pycache__
+prune test

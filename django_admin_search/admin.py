@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.contrib import messages
 from django.contrib.admin import ModelAdmin
+from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
-from django.core.exceptions import ValidationError
 
 from django_admin_search import utils
 
@@ -54,15 +54,6 @@ class AdvancedSearchAdmin(ModelAdmin):
 
         return False, None
 
-    def get_field_value_override(self, field, field_value, form_field, request):
-        """
-            allow to override default field query
-        """
-        if hasattr(self, ('search_' + field)):
-            return getattr(self, 'search_' + field)(field, field_value, form_field, request,
-                                                    self.advanced_search_fields)
-        return Q()
-
     @staticmethod
     def get_field_value_default(field, form_field, field_value, has_field_value, request):
         """
@@ -85,6 +76,16 @@ class AdvancedSearchAdmin(ModelAdmin):
 
         return Q()
 
+    def get_field_value(self, field, form_field, field_value, has_field_value, request):
+        """
+            allow to override default field query
+        """
+        if hasattr(self, ('search_' + field)):
+            return getattr(self, 'search_' + field)(field, field_value, form_field, request,
+                                                    self.advanced_search_fields)
+
+        return self.get_field_value_default(field, form_field, field_value, has_field_value, request)
+
     def advanced_search_query(self, request):
         """
             Get form and mount filter query if form is not none
@@ -96,10 +97,6 @@ class AdvancedSearchAdmin(ModelAdmin):
 
         for field, form_field in self.search_form_data.fields.items():
             has_field_value, field_value = self.get_field_value(field)
-
-            if hasattr(self, ('search_' + field)):
-                query &= self.get_field_value_override(field, field_value, form_field, request)
-            else:
-                query &= self.get_field_value_default(field, form_field, field_value, has_field_value, request)
+            query &= self.get_field_value(field, form_field, field_value, has_field_value, request)
 
         return query

@@ -4,7 +4,7 @@ from io import open
 
 from setuptools import find_packages, setup
 
-from django_admin_search.meta import VERSION
+from django_admin_search import __version__
 
 extras_require = {
     'dev': [
@@ -20,7 +20,7 @@ extras_require = {
 
 setup(
     name='django-admin-search',
-    version=str(VERSION),
+    version=__version__,
     description='The "Django Admin Search" is a advanced search modal for django admin',
     long_description=open('README.md', encoding='utf-8').read(),
     long_description_content_type='text/markdown',

@@ -45,7 +45,7 @@ class AdvancedSearchAdmin(ModelAdmin):
 
         request._mutable = False  # pylint: disable=W0212
 
-    def get_field_value(self, field):
+    def get_request_field_value(self, field):
         """
             check if field has value passed on request
         """
@@ -96,7 +96,7 @@ class AdvancedSearchAdmin(ModelAdmin):
             return query
 
         for field, form_field in self.search_form_data.fields.items():
-            has_field_value, field_value = self.get_field_value(field)
+            has_field_value, field_value = self.get_request_field_value(field)
             query &= self.get_field_value(field, form_field, field_value, has_field_value, request)
 
         return query

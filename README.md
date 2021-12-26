@@ -146,3 +146,8 @@ https://sonarcloud.io/dashboard?id=shinneider_django-admin-search
 ```
 
 For future i want to run test's in Travis CI, to check if PR is Ok, but to be effective, i need to cover 80% or more of the code, help-me creating a test case, see this issue [PR - 20](https://github.com/shinneider/django-admin-search/issues/20)
+
+# Need a Maintainer
+ In the last months i don't have much time, health problemas,change of country and others problems.
+ i have some surgeries for first part of 2022, and all of my current project don't use django-admin.
+ ffor these reasons, i need a help for a project continuation!!

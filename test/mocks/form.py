@@ -3,7 +3,7 @@ from django.forms import (CharField, ChoiceField, DateField, Form, ModelForm,
                           FloatField, DecimalField, IntegerField)
 
 
-class TestSearchForm(Form):
+class SearchFormTest(Form):
     # TODO: Create a field for ModelChoiceField
     STATUS_CHOICES = [
         ('', 'All'),
@@ -25,6 +25,6 @@ class TestSearchForm(Form):
     field91 = CharField()
 
     def __init__(self, *args, **kwargs):
-        super(TestSearchForm, self).__init__(*args, **kwargs)
+        super(SearchFormTest, self).__init__(*args, **kwargs)
         self.fields['field90'].label = "Date Start"
         self.fields['field91'].label = "Date End"

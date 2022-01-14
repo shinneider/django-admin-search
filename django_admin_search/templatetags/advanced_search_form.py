@@ -7,7 +7,7 @@ register = Library()  # pylint: disable=C0103
 
 # @register.inclusion_tag('admin/custom_search_form.html', takes_context=True)
 @register.simple_tag(takes_context=True)
-def advanced_search_form(context, cl):
+def advanced_search_form(context, cl):  # pylint: disable=invalid-name
     """
     Displays a search form for searching the list.
     """

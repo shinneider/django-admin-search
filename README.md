@@ -114,7 +114,7 @@ Modal opened:
 # Development and Running the Tests
 To do development work for Django Admin Search, clone it locally, make and activate a virtualenv for it, then from within the project directory:
 ```
-pip install -e .[dev]
+pip install -e ".[dev]"
 ```
 
 To run the tests:

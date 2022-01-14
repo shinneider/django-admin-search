@@ -1,15 +1,16 @@
-from django.test import SimpleTestCase
+from test.mocks import CLMock, SearchFormTest
+
 from django.template import Context, Template
 from django.template.loader import render_to_string
-
-from django_admin_search.templatetags.advanced_search_form import advanced_search_form
-from test.mocks import CLMock, TestSearchForm
+from django.test import SimpleTestCase
+from django_admin_search.templatetags.advanced_search_form import \
+    advanced_search_form
 
 
 class TestAdvancedSearchTemplateTag(SimpleTestCase):
 
     def test_templatag_render(self):
-        form = TestSearchForm()
+        form = SearchFormTest()
         context = Context({'cl': CLMock, 'asf': form})
         template = Template(
             '{% load advanced_search_form %}'

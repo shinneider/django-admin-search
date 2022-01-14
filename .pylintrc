@@ -5,6 +5,8 @@
 
 # Disable module and class docstring
 disable=C0114,C0115
+max-args=6
+ignore=example,test,venv
 
 [FORMAT]
 max-line-length=120

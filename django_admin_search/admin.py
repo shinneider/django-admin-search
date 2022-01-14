@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.admin import ModelAdmin
 from django.core.exceptions import ValidationError
 from django.db.models import Q
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from django_admin_search import utils
 
@@ -23,18 +23,26 @@ class AdvancedSearchAdmin(ModelAdmin):
         queryset = super().get_queryset(request)
         try:
             return queryset.filter(self.advanced_search_query(request))
-        except Exception:
+        except Exception:  # pylint: disable=broad-except
             messages.add_message(request, messages.ERROR, 'Filter not applied, error has occurred')
             return queryset.none()
 
     def changelist_view(self, request, extra_context=None):
-        self.advanced_search_fields = {}
-        self.search_form_data = self.search_form(request.GET)
-        self.extract_advanced_search_terms(request.GET)
-        extra_context = {'asf': self.search_form_data}
+        """
+            Append custom form to page render
+        """
+        if hasattr(self, 'search_form'):
+            self.advanced_search_fields = {}
+            self.search_form_data = self.search_form(request.GET)  # pylint: disable=no-member
+            self.extract_advanced_search_terms(request.GET)
+            extra_context = {'asf': self.search_form_data}
+
         return super().changelist_view(request, extra_context=extra_context)
 
     def extract_advanced_search_terms(self, request):
+        """
+            allow to extract field values from request
+        """
         request._mutable = True  # pylint: disable=W0212
 
         if self.search_form_data is not None:
@@ -70,7 +78,7 @@ class AdvancedSearchAdmin(ModelAdmin):
                 messages.add_message(request, messages.ERROR, _(f"Filter in field `{field_name}` "
                                                                 "ignored, because value "
                                                                 f"`{field_value}` isn't valid"))
-            except Exception:
+            except Exception:  # pylint: disable=broad-except
                 messages.add_message(request, messages.ERROR, _(f"Filter in field `{field_name}` "
                                                                 "ignored, error has occurred."))
 

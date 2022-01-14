@@ -1,12 +1,17 @@
 import unittest
 from datetime import date, datetime
 from decimal import Decimal
-from django_admin_search.utils import format_data
-from django import forms
-from django.db import models
-from django.core.exceptions import ValidationError
-from django_mock_queries.query import MockSet, MockModel
 
+from django import forms
+from django.core.exceptions import ValidationError
+from django.db.models import Model
+from django_admin_search.utils import format_data
+from django_mock_queries.constants import ObjectDoesNotExist
+from django_mock_queries.query import MockModel, MockSet
+
+
+class ModelTest(Model):
+    pass
 
 class TestUtilsFunctions(unittest.TestCase):
 
@@ -32,19 +37,19 @@ class TestUtilsFunctions(unittest.TestCase):
         field = forms.ChoiceField(choices=[(True, 'True'), (False, 'False')])
         self.assertEqual(format_data(field, True), True)
         self.assertEqual(format_data(field, False), False)
-        self.assertRaises(ValidationError, lambda: format_data(field, 1))
-        self.assertRaises(ValidationError, lambda: format_data(field, 0))
+        self.assertRaises(ValidationError, lambda: format_data(field, 'TRUE'))
+        self.assertRaises(ValidationError, lambda: format_data(field, 'FALSE'))
         self.assertRaises(ValidationError, lambda: format_data(field, 'true'))
         self.assertRaises(ValidationError, lambda: format_data(field, 'false'))
 
     def test_model_choice_field_parse(self):
-        qs = MockSet(MockModel(pk=0), MockModel(pk=1), MockModel(pk=2))
+        qs = MockSet(MockModel(pk=0), MockModel(pk=1), MockModel(pk=2), model=ModelTest)
         field = forms.ModelChoiceField(queryset=qs)
-        
+
         self.assertEqual(format_data(field, 0), 0)
         self.assertEqual(format_data(field, 1), 1)
         self.assertEqual(format_data(field, 2), 2)
-        self.assertRaises(AttributeError, lambda: format_data(field, 4))
+        self.assertRaises(ValidationError, lambda: format_data(field, 4))
 
     def test_boolean_field_parse(self):
         field = forms.BooleanField()

@@ -15,10 +15,11 @@ jobs:
     - uses: actions/download-artifact@v2
       with:
         name: test-coverage
-        projectBaseDir: django_admin_search
         
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
+      with:
+        projectBaseDir: django_admin_search
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

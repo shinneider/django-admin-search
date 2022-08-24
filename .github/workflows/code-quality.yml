@@ -5,7 +5,7 @@ on:
 
 jobs:
   code-quality:
-    name: Run Code Quality Tools
+    name: Code Quality
     runs-on: ubuntu-latest
 
     steps:

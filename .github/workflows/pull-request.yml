@@ -19,7 +19,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install isort prospector xenon
+        pip install ."[dev]"
 
     - name: Run isort
       run: isort ./django_admin_search --check-only --diff

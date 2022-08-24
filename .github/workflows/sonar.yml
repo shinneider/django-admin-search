@@ -21,6 +21,15 @@ jobs:
         
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
+      with:
+        projectBaseDir: django_admin_search
+        args: >
+          -Dsonar.organization=shinneider
+          -Dsonar.projectKey=shinneider_django-admin-search
+          -Dsonar.python.coverage.reportPaths=coverage.xml
+          -Dsonar.test.exclusions=tests/**
+          -Dsonar.tests=tests/
+          -Dsonar.verbose=true
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

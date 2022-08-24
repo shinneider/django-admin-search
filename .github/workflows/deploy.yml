@@ -1,38 +1,20 @@
 name: Build and publish to PyPI
 
 on:
-  release:
-    types:        
-      [created]
+  push:
+    tags:
+      - '**'
 
 jobs:
   code-quality:
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/code-quality.yml
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.x"
-
-    - name: Install dependencies
-      run: |
-        pip install ."[dev]"
-
-    - name: Run isort
-      run: isort ./django_admin_search --check-only --diff
-
-    - name: Run xenon (Cyclomatic Complexity)
-      run: xenon --max-absolute B --max-modules A --max-average A ./django_admin_search
-
-    - name: Run bandit
-      run: bandit -c profile-bandit.yml ./django_admin_search -r -ll
-    
-    - name: Run tests
-      run: tox
+  tests:
+    uses: ./.github/workflows/tests.yml
 
   build-publish:
+    name: Package to PyPI
+    needs: [code-quality, tests]
     runs-on: ubuntu-latest
 
     steps:

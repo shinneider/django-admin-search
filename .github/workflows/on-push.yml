@@ -17,3 +17,5 @@ jobs:
   sonar:
     uses: ./.github/workflows/sonar.yml
     needs: [tests]
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

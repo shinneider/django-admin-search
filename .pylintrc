@@ -1,12 +1,22 @@
 [MASTER]
+ignore = migrations,tests,manage.py
+django-settings-module=config.settings
+load-plugins = 
+    pylint_common, 
+    pylint_django
 
-# Formatter for sonarqube
-# msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}"
-
-# Disable module and class docstring
-disable=C0114,C0115
-max-args=6
-ignore=example,test,venv
+[MESSAGES CONTROL]
+disable=
+    django-not-configured,
+    missing-function-docstring,
+    missing-class-docstring,
+    missing-module-docstring,
+    locally-disabled,
+    too-few-public-methods
 
 [FORMAT]
+max-module-lines=1000
 max-line-length=120
+
+[DESIGN]
+max-args=10

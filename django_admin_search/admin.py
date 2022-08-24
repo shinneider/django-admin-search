@@ -33,7 +33,7 @@ class AdvancedSearchAdmin(ModelAdmin):
         """
         if hasattr(self, 'search_form'):
             self.advanced_search_fields = {}
-            self.search_form_data = self.search_form(request.GET)  # pylint: disable=no-member
+            self.search_form_data = self.search_form(request.GET)
             self.extract_advanced_search_terms(request.GET)
             extra_context = {'asf': self.search_form_data}
 
@@ -43,7 +43,7 @@ class AdvancedSearchAdmin(ModelAdmin):
         """
             allow to extract field values from request
         """
-        request._mutable = True  # pylint: disable=W0212
+        request._mutable = True  # pylint: disable=protected-access
 
         if self.search_form_data is not None:
             for key in self.search_form_data.fields.keys():
@@ -51,7 +51,7 @@ class AdvancedSearchAdmin(ModelAdmin):
                 if temp:  # there is a field but it's empty so it's useless
                     self.advanced_search_fields[key] = temp
 
-        request._mutable = False  # pylint: disable=W0212
+        request._mutable = False  # pylint: disable=protected-access
 
     def get_request_field_value(self, field):
         """

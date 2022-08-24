@@ -1,18 +1,21 @@
 import unittest
-from django.db.models import Q
-from django.contrib import messages
-from django_admin_search.admin import AdvancedSearchAdmin
-from django_mock_queries.query import MockSet, MockModel
 from unittest.mock import patch
+
+from django.contrib import messages
 from django.contrib.admin.sites import AdminSite
-from django.http.request import HttpRequest
 from django.contrib.messages.storage.fallback import FallbackStorage
+from django.db.models import Q
+from django.http.request import HttpRequest
+
+from django_mock_queries.query import MockModel, MockSet
+
+from django_admin_search.admin import AdvancedSearchAdmin
 
 
 class TestAdminOverride(unittest.TestCase):
-    qs = MockSet(MockModel(pk=0, name='test1'), MockModel(pk=1, name='test2'), 
+    qs = MockSet(MockModel(pk=0, name='test1'), MockModel(pk=1, name='test2'),
                  MockModel(pk=2, name='test3'))
-    
+
     @patch.object(AdvancedSearchAdmin, 'advanced_search_query')
     @patch('django_admin_search.admin.super')
     def test_get_queryset(self, admin_super, mock_advanced_search_query):

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/env python
 from io import open
 
 from setuptools import find_packages, setup
@@ -14,7 +13,10 @@ extras_require = {
         'pytest-pylint',
         'pytest',
         'pytest-cov',
-        'pytest-watch'
+        'pytest-watch',
+        'isort',
+        'bandit',
+        'xenon'
     ]
 }
 

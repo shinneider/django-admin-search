@@ -1,0 +1,34 @@
+name: Code Quality Tools
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.x"
+
+    - name: Install dependencies
+      run: |
+        pip install isort prospector xenon
+
+    - name: Run isort
+      run: isort ./django_admin_search --check-only --diff
+
+    - name: Run xenon (Cyclomatic Complexity)
+      run: xenon --max-absolute B --max-modules A --max-average A ./django_admin_search
+
+    - name: Run bandit
+      run: bandit -c profile-bandit.yml ./django_admin_search -r -ll
+    
+    - name: Run tests
+      run: tox

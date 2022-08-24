@@ -5,13 +5,15 @@ from decimal import Decimal
 from django import forms
 from django.core.exceptions import ValidationError
 from django.db.models import Model
-from django_admin_search.utils import format_data
-from django_mock_queries.constants import ObjectDoesNotExist
+
 from django_mock_queries.query import MockModel, MockSet
+
+from django_admin_search.utils import format_data
 
 
 class ModelTest(Model):
     pass
+
 
 class TestUtilsFunctions(unittest.TestCase):
 

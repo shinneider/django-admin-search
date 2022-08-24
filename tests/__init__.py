@@ -18,7 +18,7 @@ settings.INSTALLED_APPS = [
 
     # Third part apps
     'django_admin_search',
-    'test'
+    'tests'
 ]
 
 settings.TEMPLATES = [

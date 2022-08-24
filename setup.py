@@ -16,8 +16,9 @@ extras_require = {
         'pytest-watch',
         'isort',
         'bandit',
-        'xenon'
-    ]
+        'xenon',
+        'tox'
+    ],
 }
 
 setup(

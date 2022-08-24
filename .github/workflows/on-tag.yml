@@ -11,10 +11,15 @@ jobs:
 
   tests:
     uses: ./.github/workflows/tests.yml
+    needs: [code-quality]
+  
+  sonar:
+    uses: ./.github/workflows/sonar.yml
+    needs: [tests]
 
   build-publish:
     name: Package to PyPI
-    needs: [code-quality, tests]
+    needs: [sonar]
     runs-on: ubuntu-latest
 
     steps:

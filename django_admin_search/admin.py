@@ -58,7 +58,8 @@ class AdvancedSearchAdmin(ModelAdmin):
             check if field has value passed on request
         """
         if field in self.advanced_search_fields:
-            return True, self.advanced_search_fields[field][0]
+            value = self.advanced_search_fields[field][0]
+            return bool(value), value
 
         return False, None
 

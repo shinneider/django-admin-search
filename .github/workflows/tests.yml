@@ -23,7 +23,7 @@ jobs:
         pip install ."[dev]"
 
     - name: Test with tox
-      run: tox
+      run: tox -vv
 
     - uses: actions/upload-artifact@v2
       with:

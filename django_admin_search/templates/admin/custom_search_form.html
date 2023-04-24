@@ -29,7 +29,7 @@
         
         <div class="form_button_container">
             {% block modal_search_button %}
-            <button id="clean_form" class="form_submit_button">{% trans 'clean'|title %}</button>
+            <button id="clean_form" type="button" class="form_submit_button">{% trans 'clean'|title %}</button>
             <button id="submit_form" type="submit" class="form_submit_button">{% trans 'filter'|title %}</button>
             {% endblock %}
         </div>
@@ -73,8 +73,8 @@
         page = page == null ? 0 : ( $.isNumeric(page) ? parseInt(page) : 0 );
         
         $("#clean_form").click(function() {
-            $('#advanced_admin_search').trigger("reset");
-            $('#advanced_admin_search').trigger("submit");
+            $('#advanced_admin_search :input').val('');
+            $("#advanced_admin_search").trigger( "submit" );
         })
         $("#advanced_admin_search").submit(function() {
             $('#advanced_admin_search input').each(function(k, v) {

@@ -33,7 +33,7 @@ class AdvancedSearchAdmin(ModelAdmin):
         """
         if hasattr(self, 'search_form'):
             self.advanced_search_fields = {}
-            self.search_form_data = self.search_form(request.GET)
+            self.search_form_data = self.search_form(request.GET.dict())
             self.extract_advanced_search_terms(request.GET)
             extra_context = {'asf': self.search_form_data}
 

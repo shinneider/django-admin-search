@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
+from argparse import ArgumentParser
 from io import open
 
+from packaging.version import parse as version_parse
 from setuptools import find_packages, setup
-
-from django_admin_search import __version__
 
 extras_require = {
     'dev': [
@@ -24,9 +23,14 @@ extras_require = {
     ],
 }
 
+parser = ArgumentParser()
+parser.add_argument('-v', '--version', type=str, default='0.0')
+# args = parser.parse_args()
+args, unknown = parser.parse_known_args()
+
 setup(
     name='django-admin-search',
-    version=__version__,
+    version=str(version_parse(args.version)),
     description='The "Django Admin Search" is a advanced search modal for django admin',
     long_description=open('README.md', encoding='utf-8').read(),
     long_description_content_type='text/markdown',

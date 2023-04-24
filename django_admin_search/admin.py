@@ -76,12 +76,11 @@ class AdvancedSearchAdmin(ModelAdmin):
                 field_value = utils.format_data(form_field, field_value)  # format by field type
                 return Q(**{field_filter: field_value})
             except ValidationError:
-                messages.add_message(request, messages.ERROR, _(f"Filter in field `{field_name}` "
-                                                                "ignored, because value "
-                                                                f"`{field_value}` isn't valid"))
+                messages.add_message(request, messages.ERROR, _(
+                    f"Filter in field `{field_name}` ignored, because value `{field_value}` isn't valid."))
             except Exception:  # pylint: disable=broad-except
-                messages.add_message(request, messages.ERROR, _(f"Filter in field `{field_name}` "
-                                                                "ignored, error has occurred."))
+                messages.add_message(request, messages.ERROR, _(
+                    f"Filter in field `{field_name}` ignored, an error has occurred in filtering."))
 
         return Q()
 

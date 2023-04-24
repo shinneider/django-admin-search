@@ -27,13 +27,12 @@
             {% if pair.0 != search_var %}<input type="hidden" name="{{ pair.0 }}" value="{{ pair.1 }}"/>{% endif %}
         {% endfor %}
         
-        {% block modal_search_button %}
-        <button id="submit_form" type="submit" class="form_submit_button">
-            {% block modal_search_button_text %}
-                {% trans 'filter'|title %}
+        <div class="form_button_container">
+            {% block modal_search_button %}
+            <button id="clean_form" type="submit" class="form_submit_button">{% trans 'clean'|title %}</button>
+            <button id="submit_form" type="reset" class="form_submit_button">{% trans 'filter'|title %}</button>
             {% endblock %}
-        </button>
-        {% endblock %}
+        </div>
 
     </form>
 

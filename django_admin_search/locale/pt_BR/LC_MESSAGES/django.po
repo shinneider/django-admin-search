@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-30 01:18-0300\n"
+"POT-Creation-Date: 2023-04-24 18:42-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,16 +18,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: admin.py:79
+#: admin.py:80
 #, python-brace-format
-msgid "{err}, Filter ignored."
-msgstr "{err}, Filtros ignorados."
+msgid ""
+"Filter in field `{field_name}` ignored, because value `{field_value}` isn't "
+"valid."
+msgstr "O filtro no campo `{field_name}` foi ignorado, por que `{field_value}` não é um valor valido."
+
+#: admin.py:83
+#, python-brace-format
+msgid "Filter in field `{field_name}` ignored, an error has occurred in filtering."
+msgstr "O filtro no campo `{field_name}` foi ignorado, houve um erro ao filtrar."
 
 #: apps.py:8
 msgid "Django Admin Search"
 msgstr ""
 
-#: templates/admin/custom_search_form.html:78
+#: templates/admin/custom_search_form.html:20
 #, python-format
 msgid "%(counter)s result"
 msgid_plural ""
@@ -36,21 +43,29 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/admin/custom_search_form.html:80
+#: templates/admin/custom_search_form.html:22
 #, python-format
 msgid ""
 "\n"
 "                                      %(full_result_count)s total"
 msgstr ""
 
-#: templates/admin/custom_search_form.html:81
+#: templates/admin/custom_search_form.html:23
 msgid "Show all"
 msgstr "Mostrar todos"
 
-#: templates/admin/custom_search_form.html:91
+#: templates/admin/custom_search_form.html:32
+msgid "clean"
+msgstr "limpar"
+
+#: templates/admin/custom_search_form.html:33
 msgid "filter"
 msgstr "filtrar"
 
-#: templates/admin/custom_search_form.html:107
+#: templates/admin/custom_search_form.html:48
 msgid "advanced search"
 msgstr "busca avançada"
+
+#, python-brace-format
+#~ msgid "{err}, Filter ignored."
+#~ msgstr "{err}, Filtros ignorados."

@@ -32,6 +32,11 @@
     margin-bottom: 15px;
 }
 
+.form_button_container {
+    display: flex;
+    justify-content: space-between;
+}
+
 .form_submit_button {
     -webkit-transition-duration: 0.4s;
     /* Safari */

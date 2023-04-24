@@ -29,8 +29,8 @@
         
         <div class="form_button_container">
             {% block modal_search_button %}
-            <button id="clean_form" type="submit" class="form_submit_button">{% trans 'clean'|title %}</button>
-            <button id="submit_form" type="reset" class="form_submit_button">{% trans 'filter'|title %}</button>
+            <button id="clean_form" class="form_submit_button">{% trans 'clean'|title %}</button>
+            <button id="submit_form" type="submit" class="form_submit_button">{% trans 'filter'|title %}</button>
             {% endblock %}
         </div>
 
@@ -42,7 +42,7 @@
     <div class="search_button">
         <!-- Link to open the modal -->
         <a href="#advanced_admin_search" rel="modal:open" class="search_button">
-            <img src="{% static "admin/img/search.svg" %}" alt="Search" height="15"/> 
+            <img src="{% static 'admin/img/search.svg' %}" alt="Search" height="15"/> 
             <span>
                 {% block search_admin_button_text %}
                     {% trans 'advanced search'|title %}
@@ -72,7 +72,11 @@
         page = searchParams.get('p')
         page = page == null ? 0 : ( $.isNumeric(page) ? parseInt(page) : 0 );
         
-        $( "#advanced_admin_search" ).submit(function() {
+        $("#clean_form").click(function() {
+            $('#advanced_admin_search').trigger("reset");
+            $('#advanced_admin_search').trigger("submit");
+        })
+        $("#advanced_admin_search").submit(function() {
             $('#advanced_admin_search input').each(function(k, v) {
                 v.disabled = v.value === '';
             });

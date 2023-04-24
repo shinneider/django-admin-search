@@ -17,6 +17,7 @@
 coverage.xml
 pylint.txt
 /.tox/*
+build/*
 
 # SonarQube
 .scannerwork

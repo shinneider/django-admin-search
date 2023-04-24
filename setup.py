@@ -14,12 +14,13 @@ extras_require = {
         'pytest',
         'pytest-cov',
         'pytest-watch',
-        'tox'
+        'tox',
+        'six'
     ],
     'code-quality': [
         'isort',
         'bandit',
-        'xenon',
+        'xenon'
     ],
 }
 

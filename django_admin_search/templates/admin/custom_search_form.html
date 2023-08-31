@@ -23,9 +23,11 @@
                                       {{ full_result_count }} total{% endblocktrans %}{% else %}{% trans "Show all" %}{% endif %}</a>)
             </span>
         {% endif %}
-        {% for pair in cl.params.items %}
-            {% if pair.0 != search_var %}<input type="hidden" name="{{ pair.0 }}" value="{{ pair.1 }}"/>{% endif %}
-        {% endfor %}
+        {% if cl.params %}
+	        {% for pair in cl.params.items %}
+	            {% if pair.0 != search_var %}<input type="hidden" name="{{ pair.0 }}" value="{{ pair.1 }}"/>{% endif %}
+	        {% endfor %}
+        {% endif %}
         
         <div class="form_button_container">
             {% block modal_search_button %}

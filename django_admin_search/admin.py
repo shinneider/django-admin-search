@@ -31,11 +31,12 @@ class AdvancedSearchAdmin(ModelAdmin):
         """
             Append custom form to page render
         """
+        extra_context = extra_context or {}
         if hasattr(self, 'search_form'):
             self.advanced_search_fields = {}
             self.search_form_data = self.search_form(request.GET.dict())
             self.extract_advanced_search_terms(request.GET)
-            extra_context = {'asf': self.search_form_data}
+            extra_context.update({'asf': self.search_form_data})
 
         return super().changelist_view(request, extra_context=extra_context)
 

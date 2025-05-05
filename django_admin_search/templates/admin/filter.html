@@ -1,0 +1,8 @@
+{% load i18n %}
+<h3>{% blocktranslate with filter_title=title %} By {{ filter_title }} {% endblocktranslate %}</h3>
+<ul role="list">
+{% for choice in choices %}
+  <li{% if choice.selected %} class="selected"{% endif %}>
+  <a href="{{ choice.query_string|iriencode }}{% if advanced_search_params %}&amp;{{ advanced_search_params }}{% endif %}">{{ choice.display }}</a></li>
+{% endfor %}
+</ul> 

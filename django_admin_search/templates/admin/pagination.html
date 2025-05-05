@@ -1,0 +1,24 @@
+{% load admin_list %}
+{% load i18n %}
+<div class="paginator">
+{% if pagination_required %}
+<span class="step-links">
+    {% if page_obj.has_previous %}
+        <a href="{{ page_obj.previous_page_number.querystring }}{% if advanced_search_params %}&amp;{{ advanced_search_params }}{% endif %}" class="prev">&lsaquo; {% translate "Previous" %}</a>
+    {% endif %}
+
+    <span class="current">
+        {% blocktranslate with page_number=page_obj.number total_pages=paginator.num_pages %}
+            Page {{ page_number }} of {{ total_pages }}.
+        {% endblocktranslate %}
+    </span>
+
+    {% if page_obj.has_next %}
+        <a href="{{ page_obj.next_page_number.querystring }}{% if advanced_search_params %}&amp;{{ advanced_search_params }}{% endif %}" class="next">{% translate "Next" %} &rsaquo;</a>
+    {% endif %}
+</span>
+{% endif %}
+
+{% cl_show_full_result_count %}
+
+</div> 

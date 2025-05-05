@@ -4,6 +4,7 @@ from django.contrib.admin import ModelAdmin
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
+from urllib.parse import urlencode
 
 from django_admin_search import utils
 
@@ -29,30 +30,51 @@ class AdvancedSearchAdmin(ModelAdmin):
 
     def changelist_view(self, request, extra_context=None):
         """
-            Append custom form to page render
+            Append custom form and search parameters to page render
         """
         extra_context = extra_context or {}
+        advanced_search_params = {}
+
         if hasattr(self, 'search_form'):
+            original_get = request.GET.copy()
+
             self.advanced_search_fields = {}
-            self.search_form_data = self.search_form(request.GET.dict())
-            self.extract_advanced_search_terms(request.GET)
-            extra_context.update({'asf': self.search_form_data})
+            self.search_form_data = self.search_form(original_get)
+            is_form_valid = self.search_form_data.is_valid()
+            self.extract_advanced_search_terms(original_get, is_form_valid)
 
-        return super().changelist_view(request, extra_context=extra_context)
+            form_fields = self.search_form_data.fields.keys() if self.search_form_data else []
+            for key, value_list in original_get.lists():
+                if key in form_fields and self.advanced_search_fields.get(key):
+                    advanced_search_params[key] = value_list
 
-    def extract_advanced_search_terms(self, request):
+            extra_context.update({
+                'asf': self.search_form_data,
+                'advanced_search_params': urlencode(advanced_search_params, doseq=True)
+            })
+
+        response = super().changelist_view(request, extra_context=extra_context)
+
+        if hasattr(response, 'context_data'):
+            response.context_data.update(extra_context)
+
+        return response
+
+    def extract_advanced_search_terms(self, request_get, is_form_valid):
         """
-            allow to extract field values from request
+            Extract field values from the provided GET dictionary.
+            Uses the populated search_form_data to identify relevant fields.
         """
-        request._mutable = True  # pylint: disable=protected-access
+        self.advanced_search_fields = {}
 
-        if self.search_form_data is not None:
-            for key in self.search_form_data.fields.keys():
-                temp = request.pop(key, None)
-                if temp:  # there is a field but it's empty so it's useless
-                    self.advanced_search_fields[key] = temp
+        if self.search_form_data and is_form_valid:
+            for key, field in self.search_form_data.fields.items():
+                cleaned_value = self.search_form_data.cleaned_data.get(key)
 
-        request._mutable = False  # pylint: disable=protected-access
+                if cleaned_value is not None and cleaned_value != '':
+                     value_list = request_get.getlist(key)
+                     if any(v is not None and v != '' for v in value_list):
+                         self.advanced_search_fields[key] = value_list
 
     def get_request_field_value(self, field):
         """
@@ -109,3 +131,17 @@ class AdvancedSearchAdmin(ModelAdmin):
             query &= self.get_field_value(field, form_field, field_value, has_field_value, request)
 
         return query
+
+    def lookup_allowed(self, lookup, value, request=None):
+        if hasattr(self, 'search_form') and self.search_form and hasattr(self.search_form, 'base_fields'):
+            for field, form_field in self.search_form.base_fields.items():
+                widget_attrs = getattr(form_field.widget, 'attrs', {})
+                base_lookup = widget_attrs.get('filter_field', field)
+                filter_method = widget_attrs.get('filter_method', '')
+
+                generated_lookup = f"{base_lookup}{filter_method}"
+
+                if lookup == generated_lookup:
+                    return True
+
+        return super().lookup_allowed(lookup, value, request)

@@ -74,16 +74,16 @@
         page = searchParams.get('p')
         page = page == null ? 0 : ( $.isNumeric(page) ? parseInt(page) : 0 );
         
-        $("#clean_form").click(function() {
-            $('#advanced_admin_search :input').val('');
-            $("#advanced_admin_search").trigger( "submit" );
+        django.jQuery("#clean_form").click(function() {
+            django.jQuery('#advanced_admin_search :input').val('');
+            django.jQuery("#advanced_admin_search").trigger( "submit" );
         })
-        $("#advanced_admin_search").submit(function() {
-            $('#advanced_admin_search input').each(function(k, v) {
+        django.jQuery("#advanced_admin_search").submit(function() {
+            django.jQuery('#advanced_admin_search input').each(function(k, v) {
                 v.disabled = v.value === '';
             });
             
-            params = $('#advanced_admin_search').serialize()
+            params = django.jQuery('#advanced_admin_search').serialize()
 
             /* 
                 
